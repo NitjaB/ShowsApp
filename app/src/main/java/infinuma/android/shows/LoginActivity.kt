@@ -1,6 +1,7 @@
 package infinuma.android.shows
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -53,7 +54,11 @@ class LoginActivity : Activity() {
         }
     }
 
-    private val buttonClickListener = OnClickListener { TODO("Not yet implemented") }
+    private val buttonClickListener = OnClickListener {
+        startActivity(
+            Intent(this, WelcomeActivity::class.java)
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

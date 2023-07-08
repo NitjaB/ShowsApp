@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Shows</string>
+    <string name="login_screen_app_name">Shows</string>
+    <string name="login_screen_title">Login</string>
+    <string name="login_screen_description">In order to continue please log in.</string>
+    <string name="login_screen_email_hint">Email</string>
+    <string name="login_screen_password_hint">Password</string>
+    <string name="login_screen_login_button">Login</string>
 </resources>

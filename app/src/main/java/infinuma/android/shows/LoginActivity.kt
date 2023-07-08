@@ -34,6 +34,9 @@ class LoginActivity : Activity() {
                 s.toString(),
                 passwordInput.text.toString()
             )
+            if (!isEmailValid(s.toString())) {
+                emailInput.error = resources.getString(R.string.login_screen_email_error)
+            }
         }
     }
 
@@ -65,7 +68,10 @@ class LoginActivity : Activity() {
     }
 
     private fun isInputValid(email: String, password: String) =
-        emailPattern.matcher(email).matches() && password.isNotEmpty() && password.length >= PASSWORD_MIN_CHARACTERS
+        isEmailValid(email) && password.isNotEmpty() && password.length >= PASSWORD_MIN_CHARACTERS
+
+    private fun isEmailValid(email: String) =
+        emailPattern.matcher(email).matches()
 
     private fun makeStatusBarTransparent() {
         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or

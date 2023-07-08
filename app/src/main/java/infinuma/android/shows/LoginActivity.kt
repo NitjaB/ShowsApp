@@ -1,7 +1,6 @@
 package infinuma.android.shows
 
 import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -55,9 +54,7 @@ class LoginActivity : Activity() {
     }
 
     private val buttonClickListener = OnClickListener {
-        startActivity(
-            Intent(this, WelcomeActivity::class.java)
-        )
+        WelcomeActivity.startActivity(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

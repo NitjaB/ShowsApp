@@ -4,14 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 
 class WelcomeActivity : Activity() {
 
     companion object {
 
-        fun startActivity(context: Context) {
+        private const val EMAIL_EXTRA_KEY = "EMAIL_EXTRA_KEY"
+
+        fun startActivity(context: Context, email: String) {
             context.startActivity(
-                Intent(context, WelcomeActivity::class.java)
+                Intent(context, WelcomeActivity::class.java).apply {
+                    putExtra(EMAIL_EXTRA_KEY, email)
+                }
             )
         }
     }

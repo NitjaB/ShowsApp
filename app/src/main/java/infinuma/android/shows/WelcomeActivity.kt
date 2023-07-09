@@ -21,8 +21,18 @@ class WelcomeActivity : Activity() {
         }
     }
 
+    private lateinit var helloTextView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.welcome_activity_layout)
+        helloTextView = findViewById(R.id.helloTextView)
+        helloTextView.text = getString(R.string.welcome_screen_welcome_text, parseEmailToUsername(getEmailExtra()))
     }
+
+    private fun parseEmailToUsername(email: String) =
+        email.substringBefore("@")
+
+    private fun getEmailExtra() =
+        intent.getStringExtra(EMAIL_EXTRA_KEY) ?: EMAIL_EXTRA_KEY
 }

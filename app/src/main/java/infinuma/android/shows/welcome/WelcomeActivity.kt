@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import infinuma.android.shows.R
+import infinuma.android.shows.welcome.domain.EmailParser
 
 class WelcomeActivity : Activity() {
 
@@ -30,14 +31,14 @@ class WelcomeActivity : Activity() {
 
     private lateinit var helloTextView: TextView
 
+    private val emailParser = EmailParser()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.welcome_activity_layout)
         helloTextView = findViewById(R.id.helloTextView)
-        helloTextView.text = getString(R.string.welcome_screen_welcome_text, parseEmailToUsername(getEmailExtra()))
+        helloTextView.text = getString(R.string.welcome_screen_welcome_text, emailParser.toUsername(getEmailExtra()))
     }
-
-    private fun parseEmailToUsername(email: String) = email.substringBefore("@")
 
     private fun getEmailExtra() = intent.getStringExtra(Intent.EXTRA_EMAIL) ?: Intent.EXTRA_EMAIL
 }

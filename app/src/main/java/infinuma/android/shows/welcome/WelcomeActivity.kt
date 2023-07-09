@@ -1,4 +1,4 @@
-package infinuma.android.shows
+package infinuma.android.shows.welcome
 
 import android.app.Activity
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
+import infinuma.android.shows.R
 
 class WelcomeActivity : Activity() {
 

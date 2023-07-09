@@ -1,4 +1,4 @@
-package infinuma.android.shows
+package infinuma.android.shows.login
 
 import android.app.Activity
 import android.graphics.Color
@@ -9,6 +9,8 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
+import infinuma.android.shows.R
+import infinuma.android.shows.welcome.WelcomeActivity
 import java.util.regex.Pattern
 
 class LoginActivity : Activity() {

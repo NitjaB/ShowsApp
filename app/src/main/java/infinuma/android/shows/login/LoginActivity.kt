@@ -10,21 +10,17 @@ import android.view.View.OnClickListener
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 import infinuma.android.shows.R
+import infinuma.android.shows.login.domain.LoginInputValidator
 import infinuma.android.shows.welcome.WelcomeActivity
 import java.util.regex.Pattern
 
 class LoginActivity : Activity() {
 
-    companion object {
-        private const val EMAIL_REGEX_EXPRESSION = """[A-Za-z0-9.-]+@[A-Za-z-.]+\.[A-Za-z]+"""
-        private const val PASSWORD_MIN_CHARACTERS = 6
-    }
-
     private lateinit var emailInput: TextInputEditText
     private lateinit var passwordInput: TextInputEditText
     private lateinit var loginButton: Button
 
-    private val emailPattern = Pattern.compile(EMAIL_REGEX_EXPRESSION)
+    private val inputValidator = LoginInputValidator()
 
     private val emailInputListener = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -32,11 +28,11 @@ class LoginActivity : Activity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
-            loginButton.isEnabled = isInputValid(
+            loginButton.isEnabled = inputValidator.isInputValid(
                 s.toString(),
                 passwordInput.text.toString()
             )
-            if (!isEmailValid(s.toString())) {
+            if (!inputValidator.isEmailValid(s.toString())) {
                 emailInput.error = resources.getString(R.string.login_screen_email_error)
             }
         }
@@ -48,7 +44,7 @@ class LoginActivity : Activity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
-            loginButton.isEnabled = isInputValid(
+            loginButton.isEnabled = inputValidator.isInputValid(
                 emailInput.text.toString(),
                 s.toString()
             )
@@ -70,12 +66,6 @@ class LoginActivity : Activity() {
         passwordInput.addTextChangedListener(passwordInputListener)
         loginButton.setOnClickListener(buttonClickListener)
     }
-
-    private fun isInputValid(email: String, password: String) =
-        isEmailValid(email) && password.isNotEmpty() && password.length >= PASSWORD_MIN_CHARACTERS
-
-    private fun isEmailValid(email: String) =
-        emailPattern.matcher(email).matches()
 
     private fun makeStatusBarTransparent() {
         window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or

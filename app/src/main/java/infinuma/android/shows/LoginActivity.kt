@@ -54,7 +54,7 @@ class LoginActivity : Activity() {
     }
 
     private val buttonClickListener = OnClickListener {
-        WelcomeActivity.startActivity(this, emailInput.text.toString())
+        WelcomeActivity.startActivityImplicitly(this, emailInput.text.toString())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

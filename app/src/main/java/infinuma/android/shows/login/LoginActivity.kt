@@ -1,13 +1,12 @@
 package infinuma.android.shows.login
 
 import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.core.widget.addTextChangedListener
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
+import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class LoginActivity : Activity() {
 
@@ -27,12 +26,6 @@ class LoginActivity : Activity() {
             afterTextChanged = { password -> handlePasswordInputChange(password.toString()) }
         )
         binding.loginButton.setOnClickListener {}
-    }
-
-    private fun makeStatusBarTransparent() {
-        window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        window?.statusBarColor = Color.TRANSPARENT
     }
 
     private fun handleEmailInputChange(email: String) {

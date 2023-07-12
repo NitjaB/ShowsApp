@@ -7,5 +7,4 @@
     <string name="login_screen_password_hint">Password</string>
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_email_error">Invalid input</string>
-    <string name="welcome_screen_welcome_text">Welcome, %1$s!</string>
 </resources>

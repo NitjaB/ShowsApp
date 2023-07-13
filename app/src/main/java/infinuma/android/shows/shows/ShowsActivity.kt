@@ -2,6 +2,8 @@ package infinuma.android.shows.shows
 
 import android.app.Activity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import infinuma.android.shows.R
@@ -19,8 +21,14 @@ class ShowsActivity : Activity() {
         setContentView(R.layout.activity_shows)
         showsRecyclerView = findViewById(R.id.showsRecyclerView)
         showsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@ShowsActivity)
-            adapter = ShowsAdapter(createShowUiList())
+            val manager = LinearLayoutManager(this@ShowsActivity)
+            val adapter = ShowsAdapter(createShowUiList())
+            val decoration = DividerItemDecoration(this.context, manager.orientation).apply {
+                setDrawable(ContextCompat.getDrawable(this@ShowsActivity, R.drawable.show_divider)!!)
+            }
+            this.layoutManager = manager
+            this.adapter = adapter
+            this.addItemDecoration(decoration)
         }
     }
 

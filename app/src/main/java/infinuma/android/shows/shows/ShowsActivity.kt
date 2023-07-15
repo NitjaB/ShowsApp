@@ -25,6 +25,11 @@ class ShowsActivity : Activity() {
         makeStatusBarTransparent()
         binding = ActivityShowsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setUpRecyclerView()
+        setUpToggleButton()
+    }
+
+    private fun setUpRecyclerView() {
         binding.showsRecyclerView.apply {
             val manager = LinearLayoutManager(this@ShowsActivity)
             val decoration = DividerItemDecoration(this.context, manager.orientation).apply {
@@ -34,18 +39,29 @@ class ShowsActivity : Activity() {
             this.adapter = this@ShowsActivity.adapter
             this.addItemDecoration(decoration)
         }
+    }
+
+    private fun setUpToggleButton() {
         binding.toggleShowList.setOnClickListener {
             if (adapter.getShows().isEmpty()) {
                 adapter.addShows(repository.getShows())
                 binding.toggleShowList.icon = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.ic_trash_can)
-                binding.noShowsImageView.visibility = View.GONE
-                binding.noShowsTextView.visibility = View.GONE
+                hideNoShowViews()
             } else {
                 adapter.deleteShows()
-                binding.noShowsImageView.visibility = View.VISIBLE
-                binding.noShowsTextView.visibility = View.VISIBLE
                 binding.toggleShowList.icon = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.ic_add)
+                showNoShowsViews()
             }
         }
+    }
+
+    private fun showNoShowsViews() {
+        binding.noShowsImageView.visibility = View.VISIBLE
+        binding.noShowsTextView.visibility = View.VISIBLE
+    }
+
+    private fun hideNoShowViews() {
+        binding.noShowsImageView.visibility = View.GONE
+        binding.noShowsTextView.visibility = View.GONE
     }
 }

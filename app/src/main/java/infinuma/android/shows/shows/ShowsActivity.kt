@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.shows.adapter.ShowsAdapter
-import infinuma.android.shows.shows.models.ShowsUi
+import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class ShowsActivity : Activity() {
 
     private lateinit var binding: ActivityShowsBinding
 
-    private val adapter = ShowsAdapter(createShowUiList())
+    private val repository = ShowsRepository()
+
+    private val adapter = ShowsAdapter(ArrayList(repository.getShows()))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +35,8 @@ class ShowsActivity : Activity() {
             this.addItemDecoration(decoration)
         }
         binding.toggleShowList.setOnClickListener {
-            if(adapter.getShows().isEmpty()) {
-                adapter.addShows(createShowUiList())
+            if (adapter.getShows().isEmpty()) {
+                adapter.addShows(repository.getShows())
                 binding.toggleShowList.icon = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.ic_trash_can)
                 binding.noShowsImageView.visibility = View.GONE
                 binding.noShowsTextView.visibility = View.GONE
@@ -46,64 +48,4 @@ class ShowsActivity : Activity() {
             }
         }
     }
-
-    private fun createShowUiList() =
-        arrayListOf(
-            ShowsUi(
-                1, R.drawable.ic_office, R.string.the_office_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_stranger_things, R.string.stranger_things_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_krv_nije_voda, R.string.krv_nije_voda_title,
-            ),
-            ShowsUi(
-                1, R.drawable.ic_office, R.string.the_office_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_krv_nije_voda, R.string.krv_nije_voda_title,
-            ),
-            ShowsUi(
-                1, R.drawable.ic_stranger_things, R.string.stranger_things_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_office, R.string.the_office_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_stranger_things, R.string.stranger_things_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_krv_nije_voda, R.string.krv_nije_voda_title,
-            ),
-            ShowsUi(
-                1, R.drawable.ic_office, R.string.the_office_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_krv_nije_voda, R.string.krv_nije_voda_title,
-            ),
-            ShowsUi(
-                1, R.drawable.ic_stranger_things, R.string.stranger_things_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_office, R.string.the_office_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_stranger_things, R.string.stranger_things_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_krv_nije_voda, R.string.krv_nije_voda_title,
-            ),
-            ShowsUi(
-                1, R.drawable.ic_office, R.string.the_office_title
-            ),
-            ShowsUi(
-                1, R.drawable.ic_krv_nije_voda, R.string.krv_nije_voda_title,
-            ),
-            ShowsUi(
-                1, R.drawable.ic_stranger_things, R.string.stranger_things_title
-            ),
-        )
-
-    private fun createEmptyShowList() = arrayListOf<ShowsUi>()
 }

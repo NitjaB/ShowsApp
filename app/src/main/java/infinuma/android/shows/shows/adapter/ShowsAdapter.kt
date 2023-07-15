@@ -7,7 +7,7 @@ import infinuma.android.shows.databinding.ShowCardBinding
 import infinuma.android.shows.shows.models.ShowsUi
 
 class ShowsAdapter(
-    private val shows: List<ShowsUi>
+    private val shows: ArrayList<ShowsUi>
 ) : RecyclerView.Adapter<ShowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
@@ -19,6 +19,18 @@ class ShowsAdapter(
 
     override fun onBindViewHolder(holder: ShowViewHolder, position: Int) {
         holder.bind(shows[position])
+    }
+
+    fun getShows() : List<ShowsUi> = shows
+
+    fun deleteShows() {
+        shows.clear()
+        notifyDataSetChanged()
+    }
+
+    fun addShows(shows: List<ShowsUi>) {
+        this.shows.addAll(shows)
+        notifyDataSetChanged()
     }
 }
 

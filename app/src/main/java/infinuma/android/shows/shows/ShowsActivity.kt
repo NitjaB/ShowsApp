@@ -5,22 +5,22 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import infinuma.android.shows.R
+import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.models.ShowsUi
 import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class ShowsActivity : Activity() {
 
-    private lateinit var showsRecyclerView: RecyclerView
+    private lateinit var binding: ActivityShowsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         makeStatusBarTransparent()
-        setContentView(R.layout.activity_shows)
-        showsRecyclerView = findViewById(R.id.showsRecyclerView)
-        showsRecyclerView.apply {
+        binding = ActivityShowsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.showsRecyclerView.apply {
             val manager = LinearLayoutManager(this@ShowsActivity)
             val adapter = ShowsAdapter(createShowUiList())
             val decoration = DividerItemDecoration(this.context, manager.orientation).apply {

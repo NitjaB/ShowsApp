@@ -2,6 +2,7 @@ package infinuma.android.shows.shows
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,15 +21,20 @@ class ShowsActivity : Activity() {
         makeStatusBarTransparent()
         binding = ActivityShowsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val shows = createShowUiList()
         binding.showsRecyclerView.apply {
             val manager = LinearLayoutManager(this@ShowsActivity)
-            val adapter = ShowsAdapter(createShowUiList())
+            val adapter = ShowsAdapter(shows)
             val decoration = DividerItemDecoration(this.context, manager.orientation).apply {
                 setDrawable(ContextCompat.getDrawable(this@ShowsActivity, R.drawable.show_divider)!!)
             }
             this.layoutManager = manager
             this.adapter = adapter
             this.addItemDecoration(decoration)
+            if (shows.isEmpty()) {
+                binding.noShowsImageView.visibility = View.VISIBLE
+                binding.noShowsTextView.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -89,4 +95,6 @@ class ShowsActivity : Activity() {
                 1, R.drawable.ic_stranger_things, R.string.stranger_things_title
             ),
         )
+
+    private fun createEmptyShowList() = listOf<ShowsUi>()
 }

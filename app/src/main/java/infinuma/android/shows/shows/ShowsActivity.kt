@@ -18,9 +18,7 @@ class ShowsActivity : Activity() {
 
     private val repository = ShowsRepository()
 
-    private val adapter = ShowsAdapter(
-        ArrayList(repository.getShows())
-    ) {}
+    private val adapter = ShowsAdapter(arrayListOf()) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +39,13 @@ class ShowsActivity : Activity() {
             this.adapter = this@ShowsActivity.adapter
             this.addItemDecoration(decoration)
         }
+        adapter.addShows(repository.getShows(baseContext))
     }
 
     private fun setUpToggleButton() {
         binding.toggleShowList.setOnClickListener {
             if (adapter.getShows().isEmpty()) {
-                adapter.addShows(repository.getShows())
+                adapter.addShows(repository.getShows(baseContext))
                 binding.toggleShowList.icon = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.ic_trash_can)
                 hideNoShowViews()
             } else {

@@ -13,4 +13,13 @@
     <string name="stranger_things_title">Stranger Things</string>
     <string name="show_card_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</string>
     <string name="shows_activity_no_shows_message">Your shows are not showing. Get it?</string>
+    <string name="show_details_screen_description">The Office is an American mockumentary sitcom television series that depicts the everyday work lives of office employees in the Scranton, Pennsylvania, branch of the fictional Dunder Mifflin Paper Company. It aired on NBC from March 24, 2005, to May 16, 2013, lasting a total of nine seasons.</string>
+    <string name="show_details_screen_reviews_title">Reviews</string>
+    <string name="show_details_screen_reviews_info">%1$d REVIEWS, %2$.2f AVERAGE</string>
+    <string name="show_details_screen_reviews_username_1">neil.the.navy.seal</string>
+    <string name="show_details_screen_reviews_username_2">renato.ruric</string>
+    <string name="show_details_screen_reviews_username_3">kanye.east</string>
+    <string name="show_details_screen_review_1">This show was a complete masterpiece, I really liked it.</string>
+    <string name="show_details_screen_review_2">It was good. I laughed a lot, it matches my sense of humor perfectly. Loved it!</string>
+    <string name="show_details_screen_add_review">Write a review</string>
 </resources>

@@ -1,22 +1,19 @@
 package infinuma.android.shows.shows.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import infinuma.android.shows.R
+import infinuma.android.shows.databinding.ShowCardBinding
 import infinuma.android.shows.shows.models.ShowsUi
 
 class ShowsAdapter(
     private val shows: List<ShowsUi>
 ) : RecyclerView.Adapter<ShowViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ShowViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.show_card, parent, false)
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
+        val binding = ShowCardBinding.inflate(LayoutInflater.from(parent.context))
+        return ShowViewHolder(binding)
+    }
 
     override fun getItemCount() = shows.size
 
@@ -25,12 +22,10 @@ class ShowsAdapter(
     }
 }
 
-class ShowViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val title: TextView = view.findViewById(R.id.showCardTitleTextView)
-    private val image: ImageView = view.findViewById(R.id.showCardImageImageView)
+class ShowViewHolder(private val binding: ShowCardBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(show: ShowsUi) {
-        title.text = itemView.context.getString(show.title)
-        image.setImageResource(show.image)
+        binding.showCardTitleTextView.text = itemView.context.getString(show.title)
+        binding.showCardImageImageView.setImageResource(show.image)
     }
 }

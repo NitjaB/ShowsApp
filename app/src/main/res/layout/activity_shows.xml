@@ -66,4 +66,26 @@
         app:layout_constraintTop_toBottomOf="@id/noShowsImageView"
         tools:visibility="visible"
         />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/toggleShowList"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/purple"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        app:cornerRadius="150dp"
+        app:icon="@drawable/ic_trash_can"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

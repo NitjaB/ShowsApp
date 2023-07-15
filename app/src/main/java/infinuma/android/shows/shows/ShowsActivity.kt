@@ -18,7 +18,9 @@ class ShowsActivity : Activity() {
 
     private val repository = ShowsRepository()
 
-    private val adapter = ShowsAdapter(ArrayList(repository.getShows()))
+    private val adapter = ShowsAdapter(
+        ArrayList(repository.getShows())
+    ) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

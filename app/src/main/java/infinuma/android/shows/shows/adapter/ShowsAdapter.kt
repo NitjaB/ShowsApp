@@ -7,12 +7,13 @@ import infinuma.android.shows.databinding.ShowCardBinding
 import infinuma.android.shows.shows.models.ShowsUi
 
 class ShowsAdapter(
-    private val shows: ArrayList<ShowsUi>
+    private val shows: ArrayList<ShowsUi>,
+    private val onClickListener: (ShowsUi) -> Unit
 ) : RecyclerView.Adapter<ShowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
         val binding = ShowCardBinding.inflate(LayoutInflater.from(parent.context))
-        return ShowViewHolder(binding)
+        return ShowViewHolder(binding, onClickListener)
     }
 
     override fun getItemCount() = shows.size
@@ -34,10 +35,14 @@ class ShowsAdapter(
     }
 }
 
-class ShowViewHolder(private val binding: ShowCardBinding) : RecyclerView.ViewHolder(binding.root) {
+class ShowViewHolder(
+    private val binding: ShowCardBinding,
+    private val clickListener: (ShowsUi) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(show: ShowsUi) {
         binding.showCardTitleTextView.text = itemView.context.getString(show.title)
         binding.showCardImageImageView.setImageResource(show.image)
+        binding.root.setOnClickListener { clickListener(show) }
     }
 }

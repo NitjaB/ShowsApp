@@ -5,18 +5,6 @@
  - It allows access to 
       1. application-specific resources and classes
       2. up-calls for application-level operations such as launching activities and broadcasting receiving intents, etc.
-### Usage
- - In this chapter will will look at some `Context` uses.
-    1. access application-specific resource:
-            ```
-            public abstract Resources getResources()
-            ```
-            - returns a resource instance for the **application package**
-                - `Resournce` - class for accessing an application's resources, it has method like:
-                    1 .getColor
-                    2. getString
-                    3. getLayout...
-
 
 ### Usage
 In this chapter will will look at some ```Context``` uses

@@ -7,18 +7,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.Button
-import com.google.android.material.textfield.TextInputEditText
 import infinuma.android.shows.R
+import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
 import infinuma.android.shows.welcome.WelcomeActivity
-import java.util.regex.Pattern
 
 class LoginActivity : Activity() {
 
-    private lateinit var emailInput: TextInputEditText
-    private lateinit var passwordInput: TextInputEditText
-    private lateinit var loginButton: Button
+    private lateinit var binding: LoginActivityLayoutBinding
 
     private val inputValidator = LoginInputValidator()
 
@@ -28,12 +24,12 @@ class LoginActivity : Activity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
-            loginButton.isEnabled = inputValidator.isInputValid(
+            binding.loginButton.isEnabled = inputValidator.isInputValid(
                 s.toString(),
-                passwordInput.text.toString()
+                binding.passwordInputEditText.text.toString()
             )
             if (!inputValidator.isEmailValid(s.toString())) {
-                emailInput.error = resources.getString(R.string.login_screen_email_error)
+                binding.usernameInputEditText.error = resources.getString(R.string.login_screen_email_error)
             }
         }
     }
@@ -44,27 +40,25 @@ class LoginActivity : Activity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         override fun afterTextChanged(s: Editable?) {
-            loginButton.isEnabled = inputValidator.isInputValid(
-                emailInput.text.toString(),
+            binding.loginButton.isEnabled = inputValidator.isInputValid(
+                binding.usernameInputEditText.text.toString(),
                 s.toString()
             )
         }
     }
 
     private val buttonClickListener = OnClickListener {
-        WelcomeActivity.startActivityImplicitly(this, emailInput.text.toString())
+        WelcomeActivity.startActivityImplicitly(this, binding.usernameInputEditText.text.toString())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         makeStatusBarTransparent()
-        setContentView(R.layout.login_activity_layout)
-        emailInput = findViewById(R.id.usernameInputEditText)
-        passwordInput = findViewById(R.id.passwordInputEditText)
-        loginButton = findViewById(R.id.loginButton)
-        emailInput.addTextChangedListener(emailInputListener)
-        passwordInput.addTextChangedListener(passwordInputListener)
-        loginButton.setOnClickListener(buttonClickListener)
+        binding = LoginActivityLayoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.usernameInputEditText.addTextChangedListener(emailInputListener)
+        binding.passwordInputEditText.addTextChangedListener(passwordInputListener)
+        binding.loginButton.setOnClickListener(buttonClickListener)
     }
 
     private fun makeStatusBarTransparent() {

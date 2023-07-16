@@ -1,6 +1,8 @@
 package infinuma.android.shows.shows
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -14,6 +16,12 @@ import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class ShowsActivity : Activity() {
+
+    companion object {
+        fun startActivity(context: Context) {
+            context.startActivity(Intent(context, ShowsActivity::class.java))
+        }
+    }
 
     private lateinit var binding: ActivityShowsBinding
 

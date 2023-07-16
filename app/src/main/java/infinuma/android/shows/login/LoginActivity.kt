@@ -6,6 +6,7 @@ import androidx.core.widget.addTextChangedListener
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
+import infinuma.android.shows.shows.ShowsActivity
 import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class LoginActivity : Activity() {
@@ -25,7 +26,9 @@ class LoginActivity : Activity() {
         binding.passwordInputEditText.addTextChangedListener(
             afterTextChanged = { password -> handlePasswordInputChange(password.toString()) }
         )
-        binding.loginButton.setOnClickListener {}
+        binding.loginButton.setOnClickListener {
+            ShowsActivity.startActivity(this)
+        }
     }
 
     private fun handleEmailInputChange(email: String) {

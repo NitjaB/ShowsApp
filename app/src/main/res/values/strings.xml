@@ -22,4 +22,5 @@
     <string name="show_details_screen_review_1">This show was a complete masterpiece, I really liked it.</string>
     <string name="show_details_screen_review_2">It was good. I laughed a lot, it matches my sense of humor perfectly. Loved it!</string>
     <string name="show_details_screen_add_review">Write a review</string>
+    <string name="show_details_screen_no_reviews">No reviews yet.</string>
 </resources>

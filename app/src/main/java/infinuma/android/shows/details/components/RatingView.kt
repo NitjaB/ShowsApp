@@ -15,10 +15,19 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
     private val binding = ReviewLayoutBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun bind(ratingUi: RatingUi) {
-        binding.info.text =
-            context.getString(R.string.show_details_screen_reviews_info, ratingUi.numberOfReviews, ratingUi.averageReviewGrade)
-        binding.ratingBar.rating = ratingUi.averageReviewGrade
-        setUpReviews(ratingUi.reviews)
+        if(ratingUi.numberOfReviews != null && ratingUi.averageReviewGrade != null) {
+            binding.info.text =
+                context.getString(R.string.show_details_screen_reviews_info, ratingUi.numberOfReviews, ratingUi.averageReviewGrade)
+            ratingUi.averageReviewGrade?.let { grade ->
+                binding.ratingBar.rating = grade
+            }
+            setUpReviews(ratingUi.reviews)
+        } else {
+            binding.info.visibility = GONE
+            binding.ratingBar.visibility = GONE
+            binding.reviewsLinearLayout.visibility = GONE
+            binding.noReviewsTextView.visibility = VISIBLE
+        }
     }
 
     private fun setUpReviews(ratings: List<ReviewUi>) {

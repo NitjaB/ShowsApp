@@ -9,6 +9,7 @@ import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
+import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class ShowDetailsActivity : Activity() {
@@ -26,6 +27,8 @@ class ShowDetailsActivity : Activity() {
 
     private lateinit var binding: ActivityShowDetailsBinding
 
+    private val showsRepository = ShowsRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         makeStatusBarTransparent()
@@ -35,6 +38,7 @@ class ShowDetailsActivity : Activity() {
     }
 
     private fun initScreen() {
+        binding.titleTextView.text = showsRepository.getShow(getShowIdExtra().toInt(), baseContext)?.title
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.ratingView.bind(createRatingUi())
@@ -72,7 +76,7 @@ class ShowDetailsActivity : Activity() {
     )
 
     private fun getShowIdExtra() =
-        intent.getStringExtra(SHOW_ID)
+        intent.getStringExtra(SHOW_ID)!!
 
     private fun showAddReviewDialog() {
         MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)

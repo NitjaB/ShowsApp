@@ -122,4 +122,8 @@ class ShowsRepository {
             context.getString(R.string.show_card_description)
         ),
     )
+
+    fun getShow(id: Int, context: Context) = getShows(context).firstOrNull { show ->
+        show.id == id
+    }
 }

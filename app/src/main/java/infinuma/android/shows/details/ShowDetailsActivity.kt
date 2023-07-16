@@ -35,6 +35,9 @@ class ShowDetailsActivity : Activity() {
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.ratingView.bind(createRatingUi())
+        binding.backButtonImageView.setOnClickListener {
+            finish()
+        }
     }
 
     private fun createRatingUi() = RatingUi(

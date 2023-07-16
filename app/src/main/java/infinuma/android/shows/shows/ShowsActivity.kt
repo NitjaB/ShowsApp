@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
+import infinuma.android.shows.details.ShowDetailsActivity
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.makeStatusBarTransparent
@@ -18,7 +19,9 @@ class ShowsActivity : Activity() {
 
     private val repository = ShowsRepository()
 
-    private val adapter = ShowsAdapter(arrayListOf()) {}
+    private val adapter = ShowsAdapter(arrayListOf()) {
+        ShowDetailsActivity.startActivity(this, it.id.toString())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

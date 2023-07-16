@@ -14,8 +14,11 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
 
     private val binding = ReviewLayoutBinding.inflate(LayoutInflater.from(context), this, true)
 
+    private var ratingUi: RatingUi? = null
+
     fun bind(ratingUi: RatingUi) {
-        if(ratingUi.numberOfReviews != null && ratingUi.averageReviewGrade != null) {
+        this.ratingUi = ratingUi
+        if (ratingUi.numberOfReviews != null && ratingUi.averageReviewGrade != null) {
             binding.info.text =
                 context.getString(R.string.show_details_screen_reviews_info, ratingUi.numberOfReviews, ratingUi.averageReviewGrade)
             ratingUi.averageReviewGrade?.let { grade ->
@@ -47,5 +50,25 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
             }
             binding.reviewsLinearLayout.addView(reviewBinding.root)
         }
+    }
+
+    public fun addReview(reviewUi: ReviewUi) {
+        ratingUi?.let {
+            binding.reviewsLinearLayout.removeAllViews()
+            val newRatingUi = RatingUi(
+                (it.numberOfReviews ?: 0) + 1,
+                calculateNewAverageGrade(it, reviewUi),
+                it.reviews.toMutableList().apply {
+                    add(0,reviewUi)
+                },
+            )
+            ratingUi = newRatingUi
+            bind(newRatingUi)
+        }
+    }
+
+    private fun calculateNewAverageGrade(oldRatingUi: RatingUi, newReview: ReviewUi): Float {
+        val sumOfGrades = oldRatingUi.reviews.sumOf { it.starGrade } + newReview.starGrade
+        return sumOfGrades.toFloat() / (oldRatingUi.reviews.size + 1)
     }
 }

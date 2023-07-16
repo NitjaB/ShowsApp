@@ -84,6 +84,13 @@ class ShowDetailsActivity : Activity() {
     }
 
     private fun addReview() {
-
+        binding.ratingView.addReview(
+            ReviewUi(
+                avatar = R.drawable.ic_profile_picture,
+                username = resources.getString(R.string.show_details_screen_reviews_username_3),
+                starGrade = 3,
+                review = resources.getString(R.string.show_details_screen_review_2)
+            )
+        )
     }
 }

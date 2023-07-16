@@ -20,7 +20,7 @@ class ShowsActivity : Activity() {
     private val repository = ShowsRepository()
 
     private val adapter = ShowsAdapter(arrayListOf()) {
-        ShowDetailsActivity.startActivity(this, it.id.toString())
+        ShowDetailsActivity.startActivity(this, it.id)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

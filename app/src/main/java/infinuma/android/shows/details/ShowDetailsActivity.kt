@@ -38,7 +38,7 @@ class ShowDetailsActivity : Activity() {
     }
 
     private fun initScreen() {
-        binding.titleTextView.text = showsRepository.getShow(getShowIdExtra().toInt(), baseContext)?.title
+        binding.titleTextView.text = showsRepository.getShow(getShowIdExtra(), baseContext)?.name
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.ratingView.bind(createRatingUi())

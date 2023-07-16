@@ -1,11 +1,10 @@
 package infinuma.android.shows.shows.models
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 data class ShowsUi(
-    val id: Int,
+    val id: String,
     @DrawableRes val image: Int,
-    val title: String,
+    val name: String,
     val description: String,
 )

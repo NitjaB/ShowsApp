@@ -41,7 +41,7 @@ class ShowViewHolder(
     ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(show: ShowsUi) {
-        binding.showCardTitleTextView.text = show.title
+        binding.showCardTitleTextView.text = show.name
         binding.showCardDescriptionTextView.text = show.description
         binding.showCardImageImageView.setImageResource(show.image)
         binding.root.setOnClickListener { clickListener(show) }

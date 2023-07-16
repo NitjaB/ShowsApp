@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:stepSize="0.1"
         android:numStars="5"
+        android:isIndicator="true"
         android:progressTint="@color/purple"
         android:secondaryProgressTint="@color/purple"
         app:layout_constraintStart_toStartOf="parent"

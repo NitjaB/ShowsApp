@@ -22,12 +22,15 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
     }
 
     private fun setUpReviews(ratings: List<ReviewUi>) {
-        ratings.forEach { item ->
+        ratings.forEachIndexed { index, item ->
             val reviewBinding = ReviewItemBinding.inflate(LayoutInflater.from(context)).apply {
                 avatarImageView.setImageResource(item.avatar)
                 usernameTextView.text = item.username
                 ratingTextView.text = item.starGrade.toString()
                 descriptionTextView.text = item.review
+                if (index + 1 < ratings.size) {
+                    divider.visibility = VISIBLE
+                }
             }
             binding.reviewsLinearLayout.addView(reviewBinding.root)
         }

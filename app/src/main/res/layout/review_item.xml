@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingVertical="8dp"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -64,4 +65,13 @@
         tools:text="@string/show_details_screen_review_1"
         />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/purple"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"
+        tools:visibility="visible"
+        />
 </androidx.appcompat.widget.LinearLayoutCompat>

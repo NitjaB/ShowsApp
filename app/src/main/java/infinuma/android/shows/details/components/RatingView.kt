@@ -27,7 +27,11 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
                 avatarImageView.setImageResource(item.avatar)
                 usernameTextView.text = item.username
                 ratingTextView.text = item.starGrade.toString()
-                descriptionTextView.text = item.review
+                if(item.review.isNullOrBlank()) {
+                    descriptionTextView.visibility = GONE
+                } else {
+                    descriptionTextView.text = item.review
+                }
                 if (index + 1 < ratings.size) {
                     divider.visibility = VISIBLE
                 }

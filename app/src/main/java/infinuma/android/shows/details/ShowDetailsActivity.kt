@@ -9,6 +9,7 @@ import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
+import infinuma.android.shows.utils.makeStatusBarTransparent
 
 class ShowDetailsActivity : Activity() {
 
@@ -27,6 +28,7 @@ class ShowDetailsActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        makeStatusBarTransparent()
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initScreen()

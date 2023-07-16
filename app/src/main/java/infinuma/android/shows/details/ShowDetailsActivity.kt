@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.models.RatingUi
@@ -35,6 +36,9 @@ class ShowDetailsActivity : Activity() {
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.ratingView.bind(createRatingUi())
+        binding.addReviewButton.setOnClickListener {
+            showAddReviewDialog()
+        }
         binding.backButtonImageView.setOnClickListener {
             finish()
         }
@@ -67,4 +71,19 @@ class ShowDetailsActivity : Activity() {
 
     private fun getShowIdExtra() =
         intent.getStringExtra(SHOW_ID)
+
+    private fun showAddReviewDialog() {
+        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+            .setTitle(R.string.show_details_screen_add_review_dialog_title)
+            .setMessage(R.string.show_details_screen_add_review_dialog_message)
+            .setPositiveButton(R.string.show_details_screen_add_review_dialog_confirmation_button, { _, _ -> addReview() })
+            .setNegativeButton(R.string.show_details_screen_add_review_dialog_cancel_button, { _, _ -> })
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    private fun addReview() {
+
+    }
 }

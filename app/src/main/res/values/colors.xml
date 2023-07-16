@@ -6,4 +6,6 @@
     <color name="black_alpha_87">#DE000000</color>
     <color name="black_alpha_60">#66000000</color>
     <color name="gray">#FF808080</color>
+    <color name="dark_gray">#FF626264</color>
+    <color name="blue">#FF3171D9</color>
 </resources>

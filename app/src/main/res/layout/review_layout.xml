@@ -28,6 +28,7 @@
         tools:text="3 REVIEWS, 3.67 AVERAGE"/>
 
     <RatingBar
+        android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:stepSize="0.1"

@@ -1,11 +1,11 @@
-package infinuma.android.shows.details.components
+package infinuma.android.shows.details.components.ratingView
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
-import infinuma.android.shows.databinding.ReviewItemBinding
 import infinuma.android.shows.databinding.ReviewLayoutBinding
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
@@ -16,6 +16,15 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
 
     private var ratingUi: RatingUi? = null
 
+    private val adapter = ReviewAdapter(arrayListOf())
+
+    init {
+        binding.reviewsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = this@RatingView.adapter
+        }
+    }
+
     fun bind(ratingUi: RatingUi) {
         this.ratingUi = ratingUi
         if (ratingUi.numberOfReviews != null && ratingUi.averageReviewGrade != null) {
@@ -24,37 +33,18 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
             ratingUi.averageReviewGrade?.let { grade ->
                 binding.ratingBar.rating = grade
             }
-            setUpReviews(ratingUi.reviews)
+            binding.reviewsRecyclerView.visibility = VISIBLE
+            adapter.resetReviews(ratingUi.reviews)
         } else {
             binding.info.visibility = GONE
             binding.ratingBar.visibility = GONE
-            binding.reviewsLinearLayout.visibility = GONE
+            binding.reviewsRecyclerView.visibility = GONE
             binding.noReviewsTextView.visibility = VISIBLE
-        }
-    }
-
-    private fun setUpReviews(ratings: List<ReviewUi>) {
-        ratings.forEachIndexed { index, item ->
-            val reviewBinding = ReviewItemBinding.inflate(LayoutInflater.from(context)).apply {
-                avatarImageView.setImageResource(item.avatar)
-                usernameTextView.text = item.username
-                ratingTextView.text = item.starGrade.toString()
-                if(item.review.isNullOrBlank()) {
-                    descriptionTextView.visibility = GONE
-                } else {
-                    descriptionTextView.text = item.review
-                }
-                if (index + 1 < ratings.size) {
-                    divider.visibility = VISIBLE
-                }
-            }
-            binding.reviewsLinearLayout.addView(reviewBinding.root)
         }
     }
 
     public fun addReview(reviewUi: ReviewUi) {
         ratingUi?.let {
-            binding.reviewsLinearLayout.removeAllViews()
             val newRatingUi = RatingUi(
                 (it.numberOfReviews ?: 0) + 1,
                 calculateNewAverageGrade(it, reviewUi),

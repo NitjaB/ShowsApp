@@ -7,7 +7,7 @@ import infinuma.android.shows.databinding.ShowCardBinding
 import infinuma.android.shows.shows.models.ShowUi
 
 class ShowsAdapter(
-    private val shows: ArrayList<ShowUi>,
+    private val shows: MutableList<ShowUi>,
     private val onClickListener: (ShowUi) -> Unit
 ) : RecyclerView.Adapter<ShowViewHolder>() {
 

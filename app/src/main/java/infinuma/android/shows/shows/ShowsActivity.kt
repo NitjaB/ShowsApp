@@ -44,7 +44,10 @@ class ShowsActivity : Activity() {
         binding.showsRecyclerView.apply {
             val manager = LinearLayoutManager(this@ShowsActivity)
             val decoration = DividerItemDecoration(this.context, manager.orientation).apply {
-                setDrawable(ContextCompat.getDrawable(this@ShowsActivity, R.drawable.show_divider)!!)
+                val drawable = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.show_divider)
+                if(drawable != null) {
+                    setDrawable(drawable)
+                }
             }
             this.layoutManager = manager
             this.adapter = this@ShowsActivity.adapter

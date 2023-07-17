@@ -76,7 +76,7 @@ class ShowDetailsActivity : Activity() {
     )
 
     private fun getShowIdExtra() =
-        intent.getStringExtra(SHOW_ID)!!
+        intent.getStringExtra(SHOW_ID) ?: SHOW_ID
 
     private fun showAddReviewDialog() {
         MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)

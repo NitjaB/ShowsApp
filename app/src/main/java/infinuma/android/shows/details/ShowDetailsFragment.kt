@@ -1,44 +1,37 @@
 package infinuma.android.shows.details
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
 import infinuma.android.shows.shows.data.ShowsRepository
-import infinuma.android.shows.utils.makeStatusBarTransparent
 
-class ShowDetailsActivity : Activity() {
-
-    companion object {
-
-        private const val SHOW_ID = "SHOW_ID"
-
-        fun startActivity(context: Context, showId: String) {
-            context.startActivity(Intent(context, ShowDetailsActivity::class.java).apply {
-                putExtra(SHOW_ID, showId)
-            })
-        }
-    }
+class ShowDetailsFragment : Fragment() {
 
     private lateinit var binding: ActivityShowDetailsBinding
 
     private val showsRepository = ShowsRepository()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        makeStatusBarTransparent()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initScreen()
     }
 
     private fun initScreen() {
-        binding.titleTextView.text = showsRepository.getShow(getShowIdExtra(), baseContext)?.name
+        // binding.titleTextView.text = showsRepository.getShow(getShowIdExtra(), baseContext)?.name
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.ratingView.bind(createRatingUi())
@@ -46,7 +39,7 @@ class ShowDetailsActivity : Activity() {
             showAddReviewDialog()
         }
         binding.backButtonImageView.setOnClickListener {
-            finish()
+            // finish()
         }
     }
 
@@ -75,11 +68,11 @@ class ShowDetailsActivity : Activity() {
         )
     )
 
-    private fun getShowIdExtra() =
-        intent.getStringExtra(SHOW_ID) ?: SHOW_ID
+    /*    private fun getShowIdExtra() =
+            intent.getStringExtra(SHOW_ID) ?: SHOW_ID*/
 
     private fun showAddReviewDialog() {
-        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
             .setTitle(R.string.show_details_screen_add_review_dialog_title)
             .setMessage(R.string.show_details_screen_add_review_dialog_message)
             .setPositiveButton(R.string.show_details_screen_add_review_dialog_confirmation_button, { _, _ -> addReview() })

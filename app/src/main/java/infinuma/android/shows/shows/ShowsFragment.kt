@@ -1,70 +1,64 @@
 package infinuma.android.shows.shows
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
-import infinuma.android.shows.details.ShowDetailsActivity
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
-import infinuma.android.shows.utils.makeStatusBarTransparent
 
-class ShowsActivity : Activity() {
-
-    companion object {
-        fun startActivity(context: Context) {
-            context.startActivity(Intent(context, ShowsActivity::class.java))
-        }
-    }
+class ShowsFragment : Fragment() {
 
     private lateinit var binding: ActivityShowsBinding
 
     private val repository = ShowsRepository()
 
     private val adapter = ShowsAdapter(arrayListOf()) {
-        ShowDetailsActivity.startActivity(this, it.id)
+        // ShowDetailsFragment.startActivity(this, it.id)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        makeStatusBarTransparent()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ActivityShowsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
         setUpToggleButton()
     }
 
     private fun setUpRecyclerView() {
         binding.showsRecyclerView.apply {
-            val manager = LinearLayoutManager(this@ShowsActivity)
+            val manager = LinearLayoutManager(requireContext())
             val decoration = DividerItemDecoration(this.context, manager.orientation).apply {
-                val drawable = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.show_divider)
-                if(drawable != null) {
+                val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.show_divider)
+                if (drawable != null) {
                     setDrawable(drawable)
                 }
             }
             this.layoutManager = manager
-            this.adapter = this@ShowsActivity.adapter
+            this.adapter = this@ShowsFragment.adapter
             this.addItemDecoration(decoration)
         }
-        adapter.addShows(repository.getShows(baseContext))
+        adapter.addShows(repository.getShows(requireContext()))
     }
 
     private fun setUpToggleButton() {
         binding.toggleShowList.setOnClickListener {
             if (adapter.getShows().isEmpty()) {
-                adapter.addShows(repository.getShows(baseContext))
-                binding.toggleShowList.icon = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.ic_trash_can)
+                adapter.addShows(repository.getShows(requireContext()))
+                binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_trash_can)
                 hideNoShowViews()
             } else {
                 adapter.deleteShows()
-                binding.toggleShowList.icon = ContextCompat.getDrawable(this@ShowsActivity, R.drawable.ic_add)
+                binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_add)
                 showNoShowsViews()
             }
         }

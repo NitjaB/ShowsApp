@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.navigation.fragment.findNavController
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
@@ -29,9 +31,9 @@ class LoginFragment : Fragment() {
         binding.passwordInputEditText.addTextChangedListener(
             afterTextChanged = { password -> handlePasswordInputChange(password.toString()) }
         )
-        /*        binding.loginButton.setOnClickListener {
-                    ShowsActivity.startActivity(this)
-                }*/
+        binding.loginButton.setOnClickListener {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
+        }
     }
 
     private fun handleEmailInputChange(email: String) {

@@ -1,11 +1,11 @@
 package infinuma.android.shows.main
 
-import android.app.Activity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import infinuma.android.shows.databinding.MainActivityLayoutBinding
 import infinuma.android.shows.utils.makeStatusBarTransparent
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {

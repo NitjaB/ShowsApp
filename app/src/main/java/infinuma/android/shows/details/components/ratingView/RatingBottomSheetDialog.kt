@@ -16,6 +16,9 @@ class RatingBottomSheetDialog(
         super.onCreate(savedInstanceState)
         binding = DialogAddReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.closeImageView.setOnClickListener {
+            dismiss()
+        }
         binding.gradeRatingBar.setOnRatingBarChangeListener { _, _, _ ->
             binding.addReviewButton.isEnabled = true
         }

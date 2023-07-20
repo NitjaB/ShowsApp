@@ -27,5 +27,6 @@
     <string name="show_details_screen_add_review_dialog_message">Are you sure you want to add a new review?</string>
     <string name="show_details_screen_add_review_dialog_cancel_button">CANCEL</string>
     <string name="show_details_screen_add_review_dialog_confirmation_button">ADD</string>
-    <string name="dialog_add_review_confirmation_button">Add review</string>
+    <string name="dialog_add_review_title">Write a review</string>
+    <string name="dialog_add_review_confirmation_button">Submit</string>
 </resources>

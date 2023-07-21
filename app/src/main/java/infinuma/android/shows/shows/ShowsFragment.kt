@@ -12,14 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.login.LoginFragmentDirections
+import infinuma.android.shows.login.domain.LoginRepository
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
+import infinuma.android.shows.utils.SharedPrefsSource
 
 class ShowsFragment : Fragment() {
 
     private lateinit var binding: ActivityShowsBinding
 
     private val repository = ShowsRepository()
+
+    private val loginRepository = LoginRepository(SharedPrefsSource.getSharedPrefs())
 
     private val adapter = ShowsAdapter(arrayListOf()) {
         val action = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(it.id)
@@ -34,6 +38,7 @@ class ShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.logoutImageView.setOnClickListener {
+            loginRepository.setRememberedUser(false)
             findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
         }
         setUpRecyclerView()

@@ -30,4 +30,6 @@
     <string name="dialog_add_review_title">Write a review</string>
     <string name="dialog_add_review_confirmation_button">Submit</string>
     <string name="check_box_text">Remember me</string>
+    <string name="change_profile_picture_button">Change profile photo</string>
+    <string name="logout_button">Logout</string>
 </resources>

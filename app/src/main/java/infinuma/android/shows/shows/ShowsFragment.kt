@@ -13,6 +13,8 @@ import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.login.LoginFragmentDirections
 import infinuma.android.shows.login.domain.LoginRepository
+import infinuma.android.shows.logout.LogoutBottomSheetDialog
+import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.SharedPrefsSource
@@ -37,9 +39,18 @@ class ShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.logoutImageView.setOnClickListener {
-            loginRepository.setRememberedUser(false)
-            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+        binding.profilePictureImageView.setOnClickListener {
+            LogoutBottomSheetDialog(
+                LogoutBottomSheetDialogUi(
+                    "Nitja", R.drawable.ic_profile_picture
+                ),
+                {
+                    loginRepository.setRememberedUser(false)
+                    findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+                },
+                {},
+                requireContext()
+            ).show()
         }
         setUpRecyclerView()
         setUpToggleButton()

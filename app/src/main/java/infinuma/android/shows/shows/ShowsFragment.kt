@@ -42,7 +42,7 @@ class ShowsFragment : Fragment() {
         binding.profilePictureImageView.setOnClickListener {
             LogoutBottomSheetDialog(
                 LogoutBottomSheetDialogUi(
-                    "Nitja", R.drawable.ic_profile_picture
+                    loginRepository.getUsername() ?: "", R.drawable.ic_profile_picture
                 ),
                 {
                     loginRepository.setRememberedUser(false)

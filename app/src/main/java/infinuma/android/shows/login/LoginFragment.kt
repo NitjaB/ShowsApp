@@ -61,8 +61,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLoginButtonClick() {
-        val rememberMe = binding.saveLoginCheckBox.isChecked
-        loginRepository.setRememberedUser(rememberMe)
+        loginRepository.setRememberedUser(binding.saveLoginCheckBox.isChecked)
+        loginRepository.saveUsername(binding.usernameInputEditText.text.toString())
         findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
     }
 }

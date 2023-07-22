@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.login.LoginFragmentDirections
@@ -45,8 +46,7 @@ class ShowsFragment : Fragment() {
                     loginRepository.getUsername() ?: "", R.drawable.ic_profile_picture
                 ),
                 {
-                    loginRepository.setRememberedUser(false)
-                    findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+                    showLogoutDialog()
                 },
                 {},
                 requireContext()
@@ -94,5 +94,21 @@ class ShowsFragment : Fragment() {
     private fun hideNoShowViews() {
         binding.noShowsImageView.visibility = View.GONE
         binding.noShowsTextView.visibility = View.GONE
+    }
+
+    private fun showLogoutDialog() {
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle(R.string.logout_dialog_title)
+            .setMessage(R.string.logout_dialog_message)
+            .setPositiveButton(R.string.logout_dialog_confirmation_button, { _, _ -> logout() })
+            .setNegativeButton(R.string.logout_dialog_cancel_button, { _, _ -> })
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    private fun logout() {
+        loginRepository.setRememberedUser(false)
+        findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
     }
 }

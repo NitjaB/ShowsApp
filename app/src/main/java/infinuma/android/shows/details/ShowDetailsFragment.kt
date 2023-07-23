@@ -25,7 +25,7 @@ class ShowDetailsFragment : Fragment() {
 
     private val args: ShowDetailsFragmentArgs by navArgs()
 
-    private val showsRepository = ShowsRepository()
+    private val showsRepository by lazy { ShowsRepository(requireContext()) }
 
     private lateinit var userRepository: UserRepository
 
@@ -41,7 +41,7 @@ class ShowDetailsFragment : Fragment() {
     }
 
     private fun initScreen() {
-        binding.titleTextView.text = showsRepository.getShow(args.id, requireContext())?.name
+        binding.titleTextView.text = showsRepository.getShow(args.id)?.name
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.ratingView.bind(createRatingUi())

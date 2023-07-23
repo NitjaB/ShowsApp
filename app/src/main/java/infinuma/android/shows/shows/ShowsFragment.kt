@@ -38,7 +38,7 @@ class ShowsFragment : Fragment() {
 
     private lateinit var binding: ActivityShowsBinding
 
-    private val repository = ShowsRepository()
+    private val repository by lazy { ShowsRepository(requireContext()) }
 
     private lateinit var userRepository: UserRepository
 
@@ -89,13 +89,13 @@ class ShowsFragment : Fragment() {
             this.adapter = this@ShowsFragment.adapter
             this.addItemDecoration(decoration)
         }
-        adapter.addShows(repository.getShows(requireContext()))
+        adapter.addShows(repository.getShows())
     }
 
     private fun setUpToggleButton() {
         binding.toggleShowList.setOnClickListener {
             if (adapter.getShows().isEmpty()) {
-                adapter.addShows(repository.getShows(requireContext()))
+                adapter.addShows(repository.getShows())
                 binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_trash_can)
                 hideNoShowViews()
             } else {

@@ -4,9 +4,11 @@ import android.content.Context
 import infinuma.android.shows.R
 import infinuma.android.shows.shows.models.ShowCardUi
 
-class ShowsRepository {
+class ShowsRepository(
+    private val context: Context
+) {
 
-    fun getShows(context: Context) = listOf(
+    fun getShows() = listOf(
         ShowCardUi(
             "1",
             R.drawable.ic_office,
@@ -123,7 +125,7 @@ class ShowsRepository {
         ),
     )
 
-    fun getShow(id: String, context: Context) = getShows(context).firstOrNull { show ->
+    fun getShow(id: String) = getShows().firstOrNull { show ->
         show.id == id
     }
 }

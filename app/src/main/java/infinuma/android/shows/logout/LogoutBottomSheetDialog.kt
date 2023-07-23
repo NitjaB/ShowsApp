@@ -20,7 +20,7 @@ class LogoutBottomSheetDialog(
         binding = LogoutDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.usernameTextView.text = state.email
-        binding.profilePictureImageView.setImageResource(state.avatar)
+        binding.profilePictureImageView.setImageBitmap(state.avatar)
         binding.logoutButton.setOnClickListener {
             dismiss()
             onLogoutClick()

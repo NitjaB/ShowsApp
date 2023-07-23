@@ -1,8 +1,8 @@
 package infinuma.android.shows.logout.model
 
-import androidx.annotation.DrawableRes
+import android.graphics.Bitmap
 
 data class LogoutBottomSheetDialogUi (
     val email: String,
-    @DrawableRes val  avatar: Int
+    val avatar: Bitmap,
 )

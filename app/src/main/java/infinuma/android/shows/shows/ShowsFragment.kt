@@ -53,7 +53,9 @@ class ShowsFragment : Fragment() {
         binding.profilePictureImageView.setOnClickListener {
             LogoutBottomSheetDialog(
                 LogoutBottomSheetDialogUi(
-                    userRepository.getUsername() ?: "", R.drawable.ic_profile_picture
+                    userRepository.getUsername() ?: "",
+                    userRepository.getUserAvatar()
+
                 ),
                 {
                     showLogoutDialog()
@@ -64,6 +66,7 @@ class ShowsFragment : Fragment() {
                 requireContext()
             ).show()
         }
+        binding.profilePictureImageView.setImageBitmap(userRepository.getUserAvatar())
         setUpRecyclerView()
         setUpToggleButton()
     }

@@ -1,9 +1,9 @@
 package infinuma.android.shows.details.models
 
-import androidx.annotation.DrawableRes
+import android.graphics.Bitmap
 
 data class ReviewUi(
-    @DrawableRes val avatar: Int,
+    val avatar: Bitmap,
     val username: String,
     val starGrade: Int,
     val review: String?

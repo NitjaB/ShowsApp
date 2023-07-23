@@ -1,6 +1,8 @@
 package infinuma.android.shows.details
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +15,9 @@ import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
+import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
+import infinuma.android.shows.utils.SharedPrefsSource
 
 class ShowDetailsFragment : Fragment() {
 
@@ -23,7 +27,10 @@ class ShowDetailsFragment : Fragment() {
 
     private val showsRepository = ShowsRepository()
 
+    private lateinit var userRepository: UserRepository
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -51,19 +58,19 @@ class ShowDetailsFragment : Fragment() {
         3.67f,
         listOf(
             ReviewUi(
-                avatar = R.drawable.ic_profile_picture,
+                avatar = BitmapFactory.decodeResource(resources, R.drawable.ic_profile_picture),
                 username = resources.getString(R.string.show_details_screen_reviews_username_1),
                 starGrade = 3,
                 review = resources.getString(R.string.show_details_screen_review_1)
             ),
             ReviewUi(
-                avatar = R.drawable.ic_profile_picture,
+                avatar = BitmapFactory.decodeResource(resources, R.drawable.ic_profile_picture),
                 username = resources.getString(R.string.show_details_screen_reviews_username_2),
                 starGrade = 3,
                 review = null
             ),
             ReviewUi(
-                avatar = R.drawable.ic_profile_picture,
+                avatar = BitmapFactory.decodeResource(resources, R.drawable.ic_profile_picture),
                 username = resources.getString(R.string.show_details_screen_reviews_username_3),
                 starGrade = 3,
                 review = resources.getString(R.string.show_details_screen_review_2)
@@ -87,8 +94,8 @@ class ShowDetailsFragment : Fragment() {
     ) {
         binding.ratingView.addReview(
             ReviewUi(
-                avatar = R.drawable.ic_profile_picture,
-                username = resources.getString(R.string.show_details_screen_reviews_username_3),
+                avatar = userRepository.getUserAvatar(),
+                username = userRepository.getUsername() ?: "",
                 starGrade = grade,
                 review = review,
             )

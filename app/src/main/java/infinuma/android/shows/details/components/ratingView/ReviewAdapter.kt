@@ -35,7 +35,7 @@ class ReviewViewHolder(private val binding: ReviewItemBinding) : RecyclerView.Vi
         review: ReviewUi,
         isLast: Boolean,
     ) {
-        binding.avatarImageView.setImageResource(review.avatar)
+        binding.avatarImageView.setImageBitmap(review.avatar)
         binding.usernameTextView.text = review.username
         binding.descriptionTextView.text = review.review
         binding.ratingTextView.text = review.starGrade.toString()

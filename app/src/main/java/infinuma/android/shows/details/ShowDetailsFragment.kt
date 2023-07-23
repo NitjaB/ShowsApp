@@ -88,6 +88,9 @@ class ShowDetailsFragment : Fragment() {
         ).show()
     }
 
+    private fun parseEmailToUsername(email: String) =
+        email.substringBefore("@")
+
     private fun addReview(
         grade: Int,
         review: String,
@@ -95,7 +98,7 @@ class ShowDetailsFragment : Fragment() {
         binding.ratingView.addReview(
             ReviewUi(
                 avatar = userRepository.getUserAvatar(),
-                username = userRepository.getUsername() ?: "",
+                username = parseEmailToUsername(userRepository.getUsername() ?: ""),
                 starGrade = grade,
                 review = review,
             )

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import infinuma.android.shows.R
@@ -15,11 +16,14 @@ import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
+import infinuma.android.shows.details.viewModel.ShowDetailsViewModel
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.SharedPrefsSource
 
 class ShowDetailsFragment : Fragment() {
+
+    private val viewModel by lazy { ViewModelProvider(this)[ShowDetailsViewModel::class.java] }
 
     private lateinit var binding: ActivityShowDetailsBinding
 

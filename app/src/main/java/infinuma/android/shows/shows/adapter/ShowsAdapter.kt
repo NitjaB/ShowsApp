@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import infinuma.android.shows.databinding.ShowCardBinding
-import infinuma.android.shows.shows.models.ShowUi
+import infinuma.android.shows.shows.models.ShowCardUi
 
 class ShowsAdapter(
-    private val shows: MutableList<ShowUi>,
-    private val onClickListener: (ShowUi) -> Unit
+    private val shows: MutableList<ShowCardUi>,
+    private val onClickListener: (ShowCardUi) -> Unit
 ) : RecyclerView.Adapter<ShowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewHolder {
@@ -22,14 +22,14 @@ class ShowsAdapter(
         holder.bind(shows[position])
     }
 
-    fun getShows() : List<ShowUi> = shows
+    fun getShows() : List<ShowCardUi> = shows
 
     fun deleteShows() {
         shows.clear()
         notifyDataSetChanged()
     }
 
-    fun addShows(shows: List<ShowUi>) {
+    fun addShows(shows: List<ShowCardUi>) {
         this.shows.addAll(shows)
         notifyDataSetChanged()
     }
@@ -37,10 +37,10 @@ class ShowsAdapter(
 
 class ShowViewHolder(
     private val binding: ShowCardBinding,
-    private val clickListener: (ShowUi) -> Unit
+    private val clickListener: (ShowCardUi) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(show: ShowUi) {
+    fun bind(show: ShowCardUi) {
         binding.showCardTitleTextView.text = show.name
         binding.showCardDescriptionTextView.text = show.description
         binding.showCardImageImageView.setImageResource(show.image)

@@ -2,7 +2,7 @@ package infinuma.android.shows.shows.models
 
 import androidx.annotation.DrawableRes
 
-data class ShowUi(
+data class ShowCardUi(
     val id: String,
     @DrawableRes val image: Int,
     val name: String,

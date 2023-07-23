@@ -2,7 +2,6 @@ package infinuma.android.shows.shows
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -29,7 +28,6 @@ import infinuma.android.shows.utils.SharedPrefsSource
 
 class ShowsFragment : Fragment() {
 
-
     private val viewModel by lazy { ViewModelProvider(this)[ShowViewModel::class.java] }
 
     companion object {
@@ -49,6 +47,7 @@ class ShowsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
+        viewModel.init(repository, userRepository)
         binding = ActivityShowsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -58,9 +57,8 @@ class ShowsFragment : Fragment() {
         binding.profilePictureImageView.setOnClickListener {
             LogoutBottomSheetDialog(
                 LogoutBottomSheetDialogUi(
-                    userRepository.getUsername() ?: "",
-                    userRepository.getUserAvatar()
-
+                    viewModel.state.value?.userEmail ?: "",
+                    viewModel.state.value?.userAvatar,
                 ),
                 {
                     showLogoutDialog()
@@ -71,7 +69,18 @@ class ShowsFragment : Fragment() {
                 requireContext()
             ).show()
         }
-        binding.profilePictureImageView.setImageBitmap(userRepository.getUserAvatar())
+        viewModel.state.observe(viewLifecycleOwner) {
+            binding.profilePictureImageView.setImageBitmap(it.userAvatar)
+            adapter.deleteShows()
+            adapter.addShows(it.shows)
+            if (it.shows.isEmpty()) {
+                binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_add)
+                showNoShowsViews()
+            } else {
+                binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_trash_can)
+                hideNoShowViews()
+            }
+        }
         setUpRecyclerView()
         setUpToggleButton()
     }
@@ -94,14 +103,10 @@ class ShowsFragment : Fragment() {
 
     private fun setUpToggleButton() {
         binding.toggleShowList.setOnClickListener {
-            if (adapter.getShows().isEmpty()) {
-                adapter.addShows(repository.getShows())
-                binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_trash_can)
-                hideNoShowViews()
+            if (viewModel.state.value?.shows?.isEmpty() == true) {
+                viewModel.showShows()
             } else {
-                adapter.deleteShows()
-                binding.toggleShowList.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_add)
-                showNoShowsViews()
+                viewModel.hideShows()
             }
         }
     }
@@ -128,8 +133,7 @@ class ShowsFragment : Fragment() {
     }
 
     private fun logout() {
-        userRepository.setRememberedUser(false)
-        userRepository.deleteUserAvatar()
+        viewModel.logout()
         findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
     }
 
@@ -142,10 +146,7 @@ class ShowsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CAMERA_REQUEST_CODE) {
             val photo = data?.extras?.get("data") as Bitmap
-            userRepository.setUserAvatar(photo)
-            binding.profilePictureImageView.setImageDrawable(
-                Drawable.createFromPath(FileUtil.getImageFile(requireContext())?.path)
-            )
+            viewModel.changeProfilePicture(photo)
         }
     }
 }

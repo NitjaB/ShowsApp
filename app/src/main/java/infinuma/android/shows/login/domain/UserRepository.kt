@@ -50,6 +50,10 @@ class UserRepository(
     fun setUserAvatar(bitmap: Bitmap) {
         FileUtil.saveBitmap(context, bitmap)
     }
+
+    fun deleteUserAvatar() {
+        FileUtil.getImageFile(context)?.delete()
+    }
 }
 
 fun FileUtil.saveBitmap(context: Context, bitmap: Bitmap) {

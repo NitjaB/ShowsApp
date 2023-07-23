@@ -124,6 +124,7 @@ class ShowsFragment : Fragment() {
 
     private fun logout() {
         userRepository.setRememberedUser(false)
+        userRepository.deleteUserAvatar()
         findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
     }
 

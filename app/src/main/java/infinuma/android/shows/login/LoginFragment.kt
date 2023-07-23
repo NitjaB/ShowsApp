@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
-import infinuma.android.shows.login.domain.LoginRepository
+import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.utils.SharedPrefsSource
 
 class LoginFragment : Fragment() {
@@ -19,16 +19,17 @@ class LoginFragment : Fragment() {
 
     private val inputValidator = LoginInputValidator()
 
-    private val loginRepository = LoginRepository(SharedPrefsSource.getSharedPrefs())
+    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
         binding = LoginActivityLayoutBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (loginRepository.isUserRemembered()) {
+        if (userRepository.isUserRemembered()) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
         } else {
             binding.usernameInputEditText.addTextChangedListener(
@@ -61,8 +62,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLoginButtonClick() {
-        loginRepository.setRememberedUser(binding.saveLoginCheckBox.isChecked)
-        loginRepository.saveUsername(binding.usernameInputEditText.text.toString())
+        userRepository.setRememberedUser(binding.saveLoginCheckBox.isChecked)
+        userRepository.saveUsername(binding.usernameInputEditText.text.toString())
         findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
     }
 }

@@ -1,6 +1,5 @@
 package infinuma.android.shows.shows
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -18,14 +17,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.login.LoginFragmentDirections
-import infinuma.android.shows.login.domain.LoginRepository
+import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.logout.LogoutBottomSheetDialog
 import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.FileUtil
 import infinuma.android.shows.utils.SharedPrefsSource
-import java.io.ByteArrayOutputStream
 
 class ShowsFragment : Fragment() {
 
@@ -37,7 +35,7 @@ class ShowsFragment : Fragment() {
 
     private val repository = ShowsRepository()
 
-    private val loginRepository = LoginRepository(SharedPrefsSource.getSharedPrefs())
+    private lateinit var userRepository: UserRepository
 
     private val adapter = ShowsAdapter(arrayListOf()) {
         val action = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(it.id)
@@ -45,6 +43,7 @@ class ShowsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
         binding = ActivityShowsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -54,7 +53,7 @@ class ShowsFragment : Fragment() {
         binding.profilePictureImageView.setOnClickListener {
             LogoutBottomSheetDialog(
                 LogoutBottomSheetDialogUi(
-                    loginRepository.getUsername() ?: "", R.drawable.ic_profile_picture
+                    userRepository.getUsername() ?: "", R.drawable.ic_profile_picture
                 ),
                 {
                     showLogoutDialog()
@@ -121,7 +120,7 @@ class ShowsFragment : Fragment() {
     }
 
     private fun logout() {
-        loginRepository.setRememberedUser(false)
+        userRepository.setRememberedUser(false)
         findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
     }
 
@@ -134,24 +133,10 @@ class ShowsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CAMERA_REQUEST_CODE) {
             val photo = data?.extras?.get("data") as Bitmap
-            FileUtil.saveBitmap(requireContext(), photo)
+            userRepository.setUserAvatar(photo)
             binding.profilePictureImageView.setImageDrawable(
                 Drawable.createFromPath(FileUtil.getImageFile(requireContext())?.path)
             )
         }
-    }
-}
-
-fun FileUtil.saveBitmap(context: Context, bitmap: Bitmap) {
-    val bytes = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-    val imageFile = createImageFile(context)
-    imageFile?.createNewFile()
-    try {
-        imageFile?.writeBytes(bytes.toByteArray())
-        bytes.flush()
-        bytes.close()
-    } catch (e: Exception) {
-        e.printStackTrace()
     }
 }

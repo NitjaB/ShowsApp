@@ -1,6 +1,11 @@
 package infinuma.android.shows.shows
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +23,15 @@ import infinuma.android.shows.logout.LogoutBottomSheetDialog
 import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
+import infinuma.android.shows.utils.FileUtil
 import infinuma.android.shows.utils.SharedPrefsSource
+import java.io.ByteArrayOutputStream
 
 class ShowsFragment : Fragment() {
+
+    companion object {
+        private const val CAMERA_REQUEST_CODE = 1175
+    }
 
     private lateinit var binding: ActivityShowsBinding
 
@@ -48,7 +59,9 @@ class ShowsFragment : Fragment() {
                 {
                     showLogoutDialog()
                 },
-                {},
+                {
+                    handleChangeProfilePictureClick()
+                },
                 requireContext()
             ).show()
         }
@@ -110,5 +123,35 @@ class ShowsFragment : Fragment() {
     private fun logout() {
         loginRepository.setRememberedUser(false)
         findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+    }
+
+    private fun handleChangeProfilePictureClick() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            val photo = data?.extras?.get("data") as Bitmap
+            FileUtil.saveBitmap(requireContext(), photo)
+            binding.profilePictureImageView.setImageDrawable(
+                Drawable.createFromPath(FileUtil.getImageFile(requireContext())?.path)
+            )
+        }
+    }
+}
+
+fun FileUtil.saveBitmap(context: Context, bitmap: Bitmap) {
+    val bytes = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+    val imageFile = createImageFile(context)
+    imageFile?.createNewFile()
+    try {
+        imageFile?.writeBytes(bytes.toByteArray())
+        bytes.flush()
+        bytes.close()
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
 }

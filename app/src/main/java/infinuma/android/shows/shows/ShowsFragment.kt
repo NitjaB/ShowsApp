@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,10 +23,14 @@ import infinuma.android.shows.logout.LogoutBottomSheetDialog
 import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
+import infinuma.android.shows.shows.viewmodel.ShowViewModel
 import infinuma.android.shows.utils.FileUtil
 import infinuma.android.shows.utils.SharedPrefsSource
 
 class ShowsFragment : Fragment() {
+
+
+    private val viewModel by lazy { ViewModelProvider(this)[ShowViewModel::class.java] }
 
     companion object {
         private const val CAMERA_REQUEST_CODE = 1175

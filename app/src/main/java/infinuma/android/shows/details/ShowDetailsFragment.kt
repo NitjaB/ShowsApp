@@ -1,6 +1,5 @@
 package infinuma.android.shows.details
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,13 +24,12 @@ class ShowDetailsFragment : Fragment() {
 
     private val args: ShowDetailsFragmentArgs by navArgs()
 
-    private val showsRepository by lazy { ShowsRepository(requireContext()) }
-
-    private lateinit var userRepository: UserRepository
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
-        viewModel.init(args.id, showsRepository, userRepository)
+        viewModel.init(
+            args.id,
+            ShowsRepository(requireContext()),
+            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
+        )
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
         return binding.root
     }

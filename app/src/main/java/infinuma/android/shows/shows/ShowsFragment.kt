@@ -36,18 +36,16 @@ class ShowsFragment : Fragment() {
 
     private lateinit var binding: ActivityShowsBinding
 
-    private val repository by lazy { ShowsRepository(requireContext()) }
-
-    private lateinit var userRepository: UserRepository
-
     private val adapter = ShowsAdapter(arrayListOf()) {
         val action = ShowsFragmentDirections.actionShowsFragmentToShowDetailsFragment(it.id)
         findNavController().navigate(action)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
-        viewModel.init(repository, userRepository)
+        viewModel.init(
+            ShowsRepository(requireContext()),
+            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
+        )
         binding = ActivityShowsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -98,7 +96,6 @@ class ShowsFragment : Fragment() {
             this.adapter = this@ShowsFragment.adapter
             this.addItemDecoration(decoration)
         }
-        adapter.addShows(repository.getShows())
     }
 
     private fun setUpToggleButton() {

@@ -32,6 +32,7 @@ class LoginFragment : Fragment() {
         if (userRepository.isUserRemembered()) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
         } else {
+            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
             binding.usernameInputEditText.addTextChangedListener(
                 afterTextChanged = { email -> handleEmailInputChange(email.toString()) }
             )

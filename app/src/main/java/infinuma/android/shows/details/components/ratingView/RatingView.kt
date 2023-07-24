@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ReviewLayoutBinding
 import infinuma.android.shows.details.models.RatingUi
-import infinuma.android.shows.details.models.ReviewUi
 
 class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -41,24 +40,5 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
             binding.reviewsRecyclerView.visibility = GONE
             binding.noReviewsTextView.visibility = VISIBLE
         }
-    }
-
-    public fun addReview(reviewUi: ReviewUi) {
-        ratingUi?.let {
-            val newRatingUi = RatingUi(
-                (it.numberOfReviews ?: 0) + 1,
-                calculateNewAverageGrade(it, reviewUi),
-                it.reviews.toMutableList().apply {
-                    add(0,reviewUi)
-                },
-            )
-            ratingUi = newRatingUi
-            bind(newRatingUi)
-        }
-    }
-
-    private fun calculateNewAverageGrade(oldRatingUi: RatingUi, newReview: ReviewUi): Float {
-        val sumOfGrades = oldRatingUi.reviews.sumOf { it.starGrade } + newReview.starGrade
-        return sumOfGrades.toFloat() / (oldRatingUi.reviews.size + 1)
     }
 }

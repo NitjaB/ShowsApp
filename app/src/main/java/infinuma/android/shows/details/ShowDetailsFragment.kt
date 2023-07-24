@@ -1,8 +1,6 @@
 package infinuma.android.shows.details
 
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
-import infinuma.android.shows.details.models.ReviewUi
 import infinuma.android.shows.details.viewModel.ShowDetailsViewModel
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
@@ -34,6 +31,7 @@ class ShowDetailsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
+        viewModel.init(args.id, showsRepository, userRepository)
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -44,10 +42,12 @@ class ShowDetailsFragment : Fragment() {
     }
 
     private fun initScreen() {
-        binding.titleTextView.text = showsRepository.getShow(args.id)?.name
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            binding.titleTextView.text = state.title
+            binding.ratingView.bind(state.ratingUi)
+        }
         binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
-        binding.ratingView.bind(showsRepository.getReviews())
         binding.addReviewButton.setOnClickListener {
             showAddReviewDialog()
         }
@@ -58,25 +58,8 @@ class ShowDetailsFragment : Fragment() {
 
     private fun showAddReviewDialog() {
         RatingBottomSheetDialog(
-            { grade, review -> addReview(grade, review) },
+            { grade, review -> viewModel.addReview(grade, review) },
             requireContext()
         ).show()
-    }
-
-    private fun parseEmailToUsername(email: String) =
-        email.substringBefore("@")
-
-    private fun addReview(
-        grade: Int,
-        review: String,
-    ) {
-        binding.ratingView.addReview(
-            ReviewUi(
-                avatar = userRepository.getUserAvatar(),
-                username = parseEmailToUsername(userRepository.getUsername() ?: ""),
-                starGrade = grade,
-                review = review,
-            )
-        )
     }
 }

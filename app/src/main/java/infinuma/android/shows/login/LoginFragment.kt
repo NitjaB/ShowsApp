@@ -29,6 +29,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.registerButton.setOnClickListener {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+        }
         if (userRepository.isUserRemembered()) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
         } else {
@@ -68,3 +71,4 @@ class LoginFragment : Fragment() {
         findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
     }
 }
+

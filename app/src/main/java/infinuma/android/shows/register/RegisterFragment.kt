@@ -9,10 +9,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.RegisterFragmentLayoutBinding
 import infinuma.android.shows.login.LoginFragmentDirections
+import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.register.domain.RegisterInputValidator
+import infinuma.android.shows.register.domain.RegistrationRepository
 import infinuma.android.shows.register.viewModel.RegisterViewModel
 
 class RegisterFragment : Fragment() {
@@ -23,7 +26,10 @@ class RegisterFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = RegisterFragmentLayoutBinding.inflate(layoutInflater)
-        viewModel.init(RegisterInputValidator())
+        viewModel.init(
+            registerInputValidator = RegisterInputValidator(),
+            registrationRepository = RegistrationRepository(RemoteApiSingleton.getRemoteApi())
+        )
         return binding.root
     }
 
@@ -41,6 +47,17 @@ class RegisterFragment : Fragment() {
             binding.repeatPasswordInputEditText.placeCursorToEnd()
             binding.registerButton.isEnabled = it.registerButtonEnabled
         }
+        viewModel.navigateToLogin.observe(viewLifecycleOwner) {
+            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+        }
+        viewModel.showRegistrationErrorDialog.observe(viewLifecycleOwner) {
+            MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+                .setTitle(R.string.register_screen_registration_failed_dialog_title)
+                .setPositiveButton(R.string.OK) { _, _ -> }
+                .setCancelable(false)
+                .create()
+                .show()
+        }
         binding.usernameInputEditText.doOnTextChanged { text, _, _, _ ->
             viewModel.onEmailInputChanged(text.toString())
         }
@@ -51,8 +68,7 @@ class RegisterFragment : Fragment() {
             viewModel.onRepeatPasswordInputChanged(text.toString())
         }
         binding.registerButton.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
-
+            viewModel.onRegisterButtonClick()
         }
     }
 }

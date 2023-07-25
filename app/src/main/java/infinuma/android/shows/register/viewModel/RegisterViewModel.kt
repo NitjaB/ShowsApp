@@ -1,22 +1,34 @@
 package infinuma.android.shows.register.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import infinuma.android.shows.register.domain.RegisterInputError
 import infinuma.android.shows.register.domain.RegisterInputValidator
+import infinuma.android.shows.register.domain.RegistrationRepository
 import infinuma.android.shows.register.models.RegisterUi
+import infinuma.android.shows.utils.SingleLiveEvent
+import kotlinx.coroutines.launch
 
 class RegisterViewModel : ViewModel() {
     private val _state = MutableLiveData(RegisterUi())
     val state: LiveData<RegisterUi> = _state
+    private val _navigateToLogin = SingleLiveEvent<Boolean>()
+    val navigateToLogin: LiveData<Boolean> = _navigateToLogin
+    private val _showRegistrationErrorDialog = SingleLiveEvent<Boolean>()
+    val showRegistrationErrorDialog: LiveData<Boolean> = _showRegistrationErrorDialog
 
     private lateinit var inputValidator: RegisterInputValidator
+    private lateinit var registrationRepository: RegistrationRepository
 
     fun init(
         registerInputValidator: RegisterInputValidator,
+        registrationRepository: RegistrationRepository,
     ) {
         this.inputValidator = registerInputValidator
+        this.registrationRepository = registrationRepository
     }
 
     fun onEmailInputChanged(input: String) {
@@ -47,6 +59,21 @@ class RegisterViewModel : ViewModel() {
                 repeatPassword = input,
                 registerButtonEnabled = inputErrors.isEmpty()
             )
+        }
+    }
+
+    fun onRegisterButtonClick() {
+        viewModelScope.launch {
+            try {
+                registrationRepository.registerUser(
+                    _state.value?.email ?: "",
+                    _state.value?.password ?: "",
+                    _state.value?.repeatPassword ?: "",
+                )
+                _navigateToLogin.value = true
+            } catch (e: Exception) {
+                _showRegistrationErrorDialog.value = true
+            }
         }
     }
 

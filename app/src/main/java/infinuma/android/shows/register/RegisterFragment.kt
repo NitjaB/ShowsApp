@@ -9,8 +9,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import infinuma.android.shows.R
 import infinuma.android.shows.databinding.RegisterFragmentLayoutBinding
 import infinuma.android.shows.login.LoginFragmentDirections
+import infinuma.android.shows.register.domain.RegisterInputValidator
 import infinuma.android.shows.register.viewModel.RegisterViewModel
 
 class RegisterFragment : Fragment() {
@@ -21,6 +23,7 @@ class RegisterFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = RegisterFragmentLayoutBinding.inflate(layoutInflater)
+        viewModel.init(RegisterInputValidator())
         return binding.root
     }
 
@@ -29,6 +32,9 @@ class RegisterFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             binding.usernameInputEditText.setText(it.email)
             binding.usernameInputEditText.placeCursorToEnd()
+            if (it.isEmailError) {
+                binding.usernameInputEditText.error = resources.getString(R.string.login_screen_email_error)
+            }
             binding.passwordInputEditText.setText(it.password)
             binding.passwordInputEditText.placeCursorToEnd()
             binding.repeatPasswordInputEditText.setText(it.repeatPassword)

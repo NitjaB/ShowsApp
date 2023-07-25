@@ -36,4 +36,11 @@
     <string name="logout_dialog_confirmation_button">Continue</string>
     <string name="logout_dialog_title">Logout</string>
     <string name="logout_dialog_cancel_button">Cancel</string>
+    <string name="register_screen_title">Register</string>
+    <string name="register_screen_email_hint">Email</string>
+    <string name="register_screen_password_hint">Password</string>
+    <string name="register_screen_repeat_password_hint">Repeat password</string>
+    <string name="register_screen_register_button">Register</string>
+    <string name="login_screen_register_button">Register</string>
+
 </resources>

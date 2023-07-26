@@ -35,7 +35,10 @@ class ShowDetailsViewModel : ViewModel() {
         _state.value = ShowDetailsUi(
             _state.value?.title,
             _state.value?.username,
-            state.value?.ratingUi?.addReview(createReviewUi(grade, review)) ?: RatingUi()
+            addReview(
+                state.value?.ratingUi ?: RatingUi(),
+                createReviewUi(grade, review)
+            )
         )
     }
 
@@ -45,4 +48,17 @@ class ShowDetailsViewModel : ViewModel() {
         grade,
         review,
     )
+
+    private fun addReview(ratingUi: RatingUi, reviewUi: ReviewUi) = RatingUi(
+        (ratingUi.numberOfReviews ?: 0) + 1,
+        calculateNewAverageGrade(ratingUi, reviewUi),
+        ratingUi.reviews.toMutableList().apply {
+            add(0, reviewUi)
+        },
+    )
+
+    private fun calculateNewAverageGrade(ratingUi: RatingUi, newReview: ReviewUi): Float {
+        val sumOfGrades = ratingUi.reviews.sumOf { it.starGrade } + newReview.starGrade
+        return sumOfGrades.toFloat() / (ratingUi.reviews.size + 1)
+    }
 }

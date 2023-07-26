@@ -23,4 +23,12 @@ class TokenRepository(
     }
 
     fun getToken() = token
+
+    fun deleteToken() {
+        token = ""
+        with(sharedPreferences.edit()) {
+            putString(SHARED_PREFS_USER_TOKEN, "")
+            apply()
+        }
+    }
 }

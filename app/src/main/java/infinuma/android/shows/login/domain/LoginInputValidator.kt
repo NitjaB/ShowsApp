@@ -10,12 +10,22 @@ class LoginInputValidator {
 
     private val emailPattern = Pattern.compile(EMAIL_REGEX_EXPRESSION)
 
-    fun isEmailValid(email: String) =
+    fun validate(email: String, password: String): List<LoginInputError> {
+        val errors = mutableListOf<LoginInputError>()
+        if (!isEmailValid(email)) {
+            errors.add(LoginInputError.EMAIL_ERROR)
+        }
+        if (password.length < PASSWORD_MIN_CHARACTERS) {
+            errors.add(LoginInputError.PASSWORD_TO_SMALL)
+        }
+        return errors
+    }
+
+    private fun isEmailValid(email: String) =
         emailPattern.matcher(email).matches()
+}
 
-    private fun isPasswordValid(password: String) =
-        password.isNotEmpty() && password.length >= PASSWORD_MIN_CHARACTERS
-
-    fun isInputValid(email: String, password: String) =
-        isEmailValid(email) && isPasswordValid(password)
+enum class LoginInputError {
+    EMAIL_ERROR,
+    PASSWORD_TO_SMALL,
 }

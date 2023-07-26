@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import infinuma.android.shows.login.domain.LoginInputError
 import infinuma.android.shows.login.domain.LoginInputValidator
+import infinuma.android.shows.login.domain.TokenRepository
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.models.LoginUi
 import infinuma.android.shows.utils.SingleLiveEvent
@@ -28,6 +29,7 @@ class LoginViewModel : ViewModel() {
     fun init(
         loginInputValidator: LoginInputValidator,
         userRepository: UserRepository,
+        tokenRepository: TokenRepository,
     ) {
         this.inputValidator = loginInputValidator
         this.userRepository = userRepository
@@ -35,6 +37,7 @@ class LoginViewModel : ViewModel() {
             _navigateToShowScreen.value = true
         } else {
             userRepository.deleteUserAvatar()
+            tokenRepository.deleteToken()
         }
     }
 

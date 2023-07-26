@@ -17,6 +17,7 @@ import infinuma.android.shows.login.viewmodel.LoginViewModel
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.register.placeCursorToEnd
 import infinuma.android.shows.utils.SharedPrefsSource
+import infinuma.android.shows.utils.TokenRepositoryInstance
 
 class LoginFragment : Fragment() {
 
@@ -32,7 +33,8 @@ class LoginFragment : Fragment() {
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),
                 context = requireContext(),
                 showRemoteApi = RemoteApiSingleton.getRemoteApi()
-            )
+            ),
+            tokenRepository = TokenRepositoryInstance.get()
         )
         return binding.root
     }

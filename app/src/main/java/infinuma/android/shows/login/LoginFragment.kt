@@ -6,69 +6,63 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
 import infinuma.android.shows.login.domain.UserRepository
+import infinuma.android.shows.login.viewmodel.LoginViewModel
+import infinuma.android.shows.register.placeCursorToEnd
 import infinuma.android.shows.utils.SharedPrefsSource
 
 class LoginFragment : Fragment() {
 
+    private val viewModel by lazy { ViewModelProvider(this)[LoginViewModel::class.java] }
+
     private lateinit var binding: LoginActivityLayoutBinding
 
-    private val inputValidator = LoginInputValidator()
-
-    private lateinit var userRepository: UserRepository
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        userRepository = UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
         binding = LoginActivityLayoutBinding.inflate(layoutInflater)
+        viewModel.init(
+            loginInputValidator = LoginInputValidator(),
+            userRepository = UserRepository(
+                sharedPreferences = SharedPrefsSource.getSharedPrefs(),
+                context = requireContext()
+            )
+        )
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.registerButton.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+        viewModel.state.observe(viewLifecycleOwner) {
+            binding.usernameInputEditText.setText(it.email)
+            binding.usernameInputEditText.placeCursorToEnd()
+            if (it.isEmailError) {
+                binding.usernameInputEditText.error = resources.getString(R.string.login_screen_email_error)
+            }
+            binding.passwordInputEditText.setText(it.password)
+            binding.passwordInputEditText.placeCursorToEnd()
+            binding.loginButton.isEnabled = it.loginButtonEnabled
         }
-        if (userRepository.isUserRemembered()) {
+        viewModel.navigateToShowScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
-        } else {
-            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
-            binding.usernameInputEditText.addTextChangedListener(
-                afterTextChanged = { email -> handleEmailInputChange(email.toString()) }
-            )
-            binding.passwordInputEditText.addTextChangedListener(
-                afterTextChanged = { password -> handlePasswordInputChange(password.toString()) }
-            )
-            binding.loginButton.setOnClickListener {
-                handleLoginButtonClick()
+        }
+        with(binding) {
+            registerButton.setOnClickListener {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+            }
+            loginButton.setOnClickListener {
+                viewModel.onLoginButtonClick()
+            }
+            usernameInputEditText.addTextChangedListener { text ->
+                viewModel.onEmailInputChanged(text.toString())
+            }
+            passwordInputEditText.addTextChangedListener { text ->
+                viewModel.onPasswordInputChanged(text.toString())
             }
         }
-    }
-
-    private fun handleEmailInputChange(email: String) {
-        binding.loginButton.isEnabled = inputValidator.isInputValid(
-            email,
-            binding.passwordInputEditText.text.toString()
-        )
-        if (!inputValidator.isEmailValid(email)) {
-            binding.usernameInputEditText.error = resources.getString(R.string.login_screen_email_error)
-        }
-    }
-
-    private fun handlePasswordInputChange(password: String) {
-        binding.loginButton.isEnabled = inputValidator.isInputValid(
-            binding.usernameInputEditText.text.toString(),
-            password,
-        )
-    }
-
-    private fun handleLoginButtonClick() {
-        userRepository.setRememberedUser(binding.saveLoginCheckBox.isChecked)
-        userRepository.saveUsername(binding.usernameInputEditText.text.toString())
-        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
     }
 }
 

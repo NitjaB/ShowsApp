@@ -5,17 +5,24 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import infinuma.android.shows.R
+import infinuma.android.shows.network.ShowRemoteApi
 import infinuma.android.shows.utils.FileUtil
 import java.io.ByteArrayOutputStream
 
 class UserRepository(
     private val sharedPreferences: SharedPreferences,
     private val context: Context,
+    private val showRemoteApi: ShowRemoteApi,
 ) {
     companion object {
         private const val SHARED_PREFS_REMEMBER_ME = "sharedPrefsRememberMe"
         private const val SHARED_PREFS_USER_EMAIL = "sharedPrefsUserEmail"
     }
+
+    suspend fun login(
+        email: String,
+        password: String
+    ) = showRemoteApi.login(email, password)
 
     fun isUserRemembered() = sharedPreferences.getBoolean(SHARED_PREFS_REMEMBER_ME, false)
     fun setRememberedUser(remember: Boolean) {

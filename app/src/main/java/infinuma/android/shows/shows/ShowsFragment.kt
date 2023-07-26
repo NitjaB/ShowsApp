@@ -21,6 +21,7 @@ import infinuma.android.shows.login.LoginFragmentDirections
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.logout.LogoutBottomSheetDialog
 import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
+import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.viewmodel.ShowViewModel
@@ -46,7 +47,7 @@ class ShowsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.init(
             ShowsRepository(requireContext()),
-            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext())
+            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext(), RemoteApiSingleton.getRemoteApi())
         )
         binding = ActivityShowsBinding.inflate(layoutInflater)
         return binding.root

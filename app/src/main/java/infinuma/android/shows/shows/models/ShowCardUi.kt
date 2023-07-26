@@ -1,10 +1,10 @@
 package infinuma.android.shows.shows.models
 
-import androidx.annotation.DrawableRes
+import android.graphics.Bitmap
 
 data class ShowCardUi(
     val id: String,
-    @DrawableRes val image: Int,
+    val image: Bitmap,
     val name: String,
     val description: String,
 )

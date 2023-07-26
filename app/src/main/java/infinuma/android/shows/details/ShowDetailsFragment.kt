@@ -1,5 +1,6 @@
 package infinuma.android.shows.details
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import infinuma.android.shows.details.viewModel.ShowDetailsViewModel
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.SharedPrefsSource
+import infinuma.android.shows.utils.loadWithGlide
 
 class ShowDetailsFragment : Fragment() {
 
@@ -44,7 +46,9 @@ class ShowDetailsFragment : Fragment() {
             binding.titleTextView.text = state.title
             binding.ratingView.bind(state.ratingUi)
         }
-        binding.posterImageView.setBackgroundResource(R.drawable.ic_office_details)
+        binding.posterImageView.loadWithGlide(
+            BitmapFactory.decodeResource(resources, R.drawable.ic_office_details)
+        )
         binding.descriptionTextView.text = resources.getString(R.string.show_details_screen_description)
         binding.addReviewButton.setOnClickListener {
             showAddReviewDialog()

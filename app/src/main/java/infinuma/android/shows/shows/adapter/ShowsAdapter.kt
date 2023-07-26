@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import infinuma.android.shows.databinding.ShowCardBinding
 import infinuma.android.shows.shows.models.ShowCardUi
+import infinuma.android.shows.utils.loadWithGlide
 
 class ShowsAdapter(
     private val shows: MutableList<ShowCardUi>,
@@ -43,7 +44,7 @@ class ShowViewHolder(
     fun bind(show: ShowCardUi) {
         binding.showCardTitleTextView.text = show.name
         binding.showCardDescriptionTextView.text = show.description
-        binding.showCardImageImageView.setImageResource(show.image)
+        binding.showCardImageImageView.loadWithGlide(show.image)
         binding.root.setOnClickListener { clickListener(show) }
     }
 }

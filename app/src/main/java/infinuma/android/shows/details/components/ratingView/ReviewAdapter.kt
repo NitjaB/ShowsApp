@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import infinuma.android.shows.databinding.ReviewItemBinding
 import infinuma.android.shows.details.models.ReviewUi
+import infinuma.android.shows.utils.loadWithGlide
 
 class ReviewAdapter(
     private var reviews: List<ReviewUi>,
@@ -35,7 +36,7 @@ class ReviewViewHolder(private val binding: ReviewItemBinding) : RecyclerView.Vi
         review: ReviewUi,
         isLast: Boolean,
     ) {
-        binding.avatarImageView.setImageBitmap(review.avatar)
+        binding.avatarImageView.loadWithGlide(review.avatar)
         binding.usernameTextView.text = review.username
         binding.descriptionTextView.text = review.review
         binding.ratingTextView.text = review.starGrade.toString()

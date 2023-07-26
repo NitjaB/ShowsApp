@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import infinuma.android.shows.databinding.LogoutDialogBinding
 import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
+import infinuma.android.shows.utils.loadWithGlide
 
 class LogoutBottomSheetDialog(
     private val state: LogoutBottomSheetDialogUi,
@@ -20,7 +21,7 @@ class LogoutBottomSheetDialog(
         binding = LogoutDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.usernameTextView.text = state.email
-        binding.profilePictureImageView.setImageBitmap(state.avatar)
+        binding.profilePictureImageView.loadWithGlide(state.avatar)
         binding.logoutButton.setOnClickListener {
             dismiss()
             onLogoutClick()

@@ -26,6 +26,7 @@ import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.viewmodel.ShowViewModel
 import infinuma.android.shows.utils.FileUtil
 import infinuma.android.shows.utils.SharedPrefsSource
+import infinuma.android.shows.utils.loadWithGlide
 
 class ShowsFragment : Fragment() {
 
@@ -69,7 +70,7 @@ class ShowsFragment : Fragment() {
             ).show()
         }
         viewModel.state.observe(viewLifecycleOwner) {
-            binding.profilePictureImageView.setImageBitmap(it.userAvatar)
+            binding.profilePictureImageView.loadWithGlide(it.userAvatar)
             adapter.deleteShows()
             adapter.addShows(it.shows)
             if (it.shows.isEmpty()) {

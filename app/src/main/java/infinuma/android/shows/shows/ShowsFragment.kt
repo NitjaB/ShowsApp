@@ -56,17 +56,13 @@ class ShowsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.profilePictureImageView.setOnClickListener {
             LogoutBottomSheetDialog(
-                LogoutBottomSheetDialogUi(
-                    viewModel.state.value?.userEmail ?: "",
-                    viewModel.state.value?.userAvatar,
+                state = LogoutBottomSheetDialogUi(
+                    email = viewModel.state.value?.userEmail ?: "",
+                    avatar = viewModel.state.value?.userAvatar,
                 ),
-                {
-                    showLogoutDialog()
-                },
-                {
-                    handleChangeProfilePictureClick()
-                },
-                requireContext()
+                onLogoutClick = { showLogoutDialog() },
+                onChangeProfilePictureClick = { handleChangeProfilePictureClick() },
+                context = requireContext()
             ).show()
         }
         viewModel.state.observe(viewLifecycleOwner) {

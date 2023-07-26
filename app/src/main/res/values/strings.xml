@@ -7,6 +7,7 @@
     <string name="login_screen_password_hint">Password</string>
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_email_error">Invalid input</string>
+    <string name="login_screen_login_error_dialog_title">Login error</string>
     <string name="shows_screen_title">Shows</string>
     <string name="the_office_title">The Office</string>
     <string name="krv_nije_voda_title">Krv nije voda</string>

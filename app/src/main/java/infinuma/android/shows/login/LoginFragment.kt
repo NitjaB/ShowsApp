@@ -8,6 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
@@ -51,6 +52,9 @@ class LoginFragment : Fragment() {
         viewModel.navigateToShowScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())
         }
+        viewModel.showErrorWhileLoginDialog.observe(viewLifecycleOwner) {
+            showLoginErrorDialog()
+        }
         with(binding) {
             registerButton.setOnClickListener {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
@@ -66,5 +70,12 @@ class LoginFragment : Fragment() {
             }
         }
     }
+
+    private fun showLoginErrorDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+        .setTitle(R.string.login_screen_login_error_dialog_title)
+        .setPositiveButton(R.string.OK) { _, _ -> }
+        .setCancelable(false)
+        .create()
+        .show()
 }
 

@@ -19,6 +19,9 @@ class LoginViewModel : ViewModel() {
     private val _navigateToShowScreen = SingleLiveEvent<Boolean>()
     val navigateToShowScreen: LiveData<Boolean> = _navigateToShowScreen
 
+    private val _showErrorWhileLoginDialog = SingleLiveEvent<Boolean>()
+    val showErrorWhileLoginDialog: LiveData<Boolean> = _showErrorWhileLoginDialog
+
     private lateinit var inputValidator: LoginInputValidator
     private lateinit var userRepository: UserRepository
 
@@ -65,7 +68,7 @@ class LoginViewModel : ViewModel() {
                 )
                 _navigateToShowScreen.value = true
             } catch (e: Exception) {
-
+                _showErrorWhileLoginDialog.value = true
             }
         }
     }

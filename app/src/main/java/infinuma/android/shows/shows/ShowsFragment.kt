@@ -1,5 +1,6 @@
 package infinuma.android.shows.shows
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -141,7 +142,7 @@ class ShowsFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CAMERA_REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == CAMERA_REQUEST_CODE) {
             val photo = data?.extras?.get("data") as Bitmap
             viewModel.changeProfilePicture(photo)
         }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -16,12 +17,15 @@ import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.viewmodel.LoginViewModel
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.register.placeCursorToEnd
+import infinuma.android.shows.register.viewModel.LoginRegisterSharedViewModel
 import infinuma.android.shows.utils.SharedPrefsSource
 import infinuma.android.shows.utils.TokenRepositoryInstance
 
 class LoginFragment : Fragment() {
 
     private val viewModel by lazy { ViewModelProvider(this)[LoginViewModel::class.java] }
+
+    private val sharedViewModel: LoginRegisterSharedViewModel by activityViewModels()
 
     private lateinit var binding: LoginActivityLayoutBinding
 
@@ -50,6 +54,17 @@ class LoginFragment : Fragment() {
             binding.passwordInputEditText.setText(it.password)
             binding.passwordInputEditText.placeCursorToEnd()
             binding.loginButton.isEnabled = it.loginButtonEnabled
+            if (it.didUserRegister) {
+                binding.registerButton.visibility = View.GONE
+                binding.loginTextView.text = resources.getString(R.string.login_screen_login_title_user_registered)
+
+            } else {
+                binding.registerButton.visibility = View.VISIBLE
+                binding.loginTextView.text = resources.getString(R.string.login_screen_title)
+            }
+        }
+        sharedViewModel.didUserRegister.observe(viewLifecycleOwner) {
+            viewModel.userRegistered(it)
         }
         viewModel.navigateToShowScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToShowsFragment())

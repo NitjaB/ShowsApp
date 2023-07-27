@@ -6,5 +6,6 @@ data class LoginUi (
     val isEmailError: Boolean = false,
     val password: String = "",
     val loginButtonEnabled: Boolean = false,
-    val registerButtonEnabled: Boolean = false
+    val registerButtonEnabled: Boolean = false,
+    val didUserRegister: Boolean = false,
 )

@@ -76,6 +76,12 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    fun userRegistered(didRegister: Boolean) {
+        _state.value = _state.value?.copy(
+            didUserRegister = didRegister
+        )
+    }
+
     private fun validate(
         email: String = _state.value?.email ?: "",
         password: String = _state.value?.password ?: "",

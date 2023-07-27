@@ -12,4 +12,7 @@ class ShowsRepository(
     ) = showInfoMapper.fromResponse(
         showRemoteApi.listShows()
     )
+
+    suspend fun getShow(showId: String) =
+        showInfoMapper.fromResponse(showRemoteApi.getShow(showId))
 }

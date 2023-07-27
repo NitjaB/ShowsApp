@@ -54,8 +54,12 @@ class TokenRepository(
 
     fun deleteToken() {
         token = ""
+        clientToken = ""
+        userId = ""
         with(sharedPreferences.edit()) {
             putString(SHARED_PREFS_USER_TOKEN, "")
+            putString(CLIENT_TOKEN_SHARED_PREFS, "")
+            putString(UID_SHARED_PREFS, "")
             apply()
         }
     }

@@ -3,12 +3,14 @@ package infinuma.android.shows.details.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import infinuma.android.shows.details.domain.EmailParser
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
 import infinuma.android.shows.details.models.ShowDetailsUi
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
+import kotlinx.coroutines.launch
 
 class ShowDetailsViewModel : ViewModel() {
     private lateinit var userRepository: UserRepository
@@ -24,11 +26,14 @@ class ShowDetailsViewModel : ViewModel() {
     ) {
         this.userRepository = userRepository
         this.showsRepository = showsRepository
-        _state.value = ShowDetailsUi(
-            title = "",
-            username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
-            ratingUi = RatingUi()
-        )
+        viewModelScope.launch {
+            val show = showsRepository.getShow(showId)
+            _state.value = ShowDetailsUi(
+                title = show.title,
+                username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
+                ratingUi = RatingUi()
+            )
+        }
     }
 
     fun addReview(grade: Int, review: String) {

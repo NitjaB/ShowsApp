@@ -54,6 +54,8 @@ class LoginFragment : Fragment() {
             binding.passwordInputEditText.setText(it.password)
             binding.passwordInputEditText.placeCursorToEnd()
             binding.loginButton.isEnabled = it.loginButtonEnabled
+            binding.progressBarLayout.setOnClickListener {}
+            binding.progressBarLayout.visibility = if(it.isLoading) View.VISIBLE else View.GONE
             if (it.didUserRegister) {
                 binding.registerButton.visibility = View.GONE
                 binding.loginTextView.text = resources.getString(R.string.login_screen_login_title_user_registered)

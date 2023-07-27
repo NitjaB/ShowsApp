@@ -8,4 +8,5 @@ data class LoginUi (
     val loginButtonEnabled: Boolean = false,
     val registerButtonEnabled: Boolean = false,
     val didUserRegister: Boolean = false,
+    val isLoading: Boolean = false
 )

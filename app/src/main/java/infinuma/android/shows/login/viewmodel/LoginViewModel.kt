@@ -11,6 +11,7 @@ import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.models.LoginUi
 import infinuma.android.shows.utils.SingleLiveEvent
 import java.lang.Exception
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -63,15 +64,25 @@ class LoginViewModel : ViewModel() {
     }
 
     fun onLoginButtonClick() {
+        _state.value = _state.value?.copy(
+            isLoading = true
+        )
         viewModelScope.launch {
             try {
                 userRepository.login(
                     email = state.value?.email ?: "",
-                    password = state.value?.password ?: ""
+                    password = state.value?.password ?: "",
+                )
+                delay(10000)
+                _state.value = _state.value?.copy(
+                    isLoading = false
                 )
                 _navigateToShowScreen.value = true
             } catch (e: Exception) {
                 _showErrorWhileLoginDialog.value = true
+                _state.value = _state.value?.copy(
+                    isLoading = false
+                )
             }
         }
     }

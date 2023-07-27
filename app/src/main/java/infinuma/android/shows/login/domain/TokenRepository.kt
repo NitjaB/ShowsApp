@@ -39,7 +39,7 @@ class TokenRepository(
     fun setUserId(userId: String) {
         if (userId != this.userId) {
             with(sharedPreferences.edit()) {
-                putString(CLIENT_TOKEN_SHARED_PREFS, userId)
+                putString(UID_SHARED_PREFS, userId)
                 apply()
             }
             this.userId = userId

@@ -11,7 +11,6 @@ import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.models.LoginUi
 import infinuma.android.shows.utils.SingleLiveEvent
 import java.lang.Exception
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -63,7 +62,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun onLoginButtonClick() {
+    fun onLoginButtonClick(isRemembered: Boolean) {
         _state.value = _state.value?.copy(
             isLoading = true
         )
@@ -73,7 +72,7 @@ class LoginViewModel : ViewModel() {
                     email = state.value?.email ?: "",
                     password = state.value?.password ?: "",
                 )
-                delay(10000)
+                userRepository.setRememberedUser(isRemembered)
                 _state.value = _state.value?.copy(
                     isLoading = false
                 )

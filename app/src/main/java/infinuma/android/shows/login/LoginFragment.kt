@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
             binding.passwordInputEditText.placeCursorToEnd()
             binding.loginButton.isEnabled = it.loginButtonEnabled
             binding.progressBarLayout.setOnClickListener {}
-            binding.progressBarLayout.visibility = if(it.isLoading) View.VISIBLE else View.GONE
+            binding.progressBarLayout.visibility = if (it.isLoading) View.VISIBLE else View.GONE
             if (it.didUserRegister) {
                 binding.registerButton.visibility = View.GONE
                 binding.loginTextView.text = resources.getString(R.string.login_screen_login_title_user_registered)
@@ -79,7 +79,7 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
             }
             loginButton.setOnClickListener {
-                viewModel.onLoginButtonClick()
+                viewModel.onLoginButtonClick(binding.saveLoginCheckBox.isChecked)
             }
             usernameInputEditText.addTextChangedListener { text ->
                 viewModel.onEmailInputChanged(text.toString())

@@ -8,6 +8,7 @@
     <string name="login_screen_login_button">Login</string>
     <string name="login_screen_email_error">Invalid input</string>
     <string name="login_screen_login_error_dialog_title">Login error</string>
+    <string name="login_screen_login_title_user_registered">Registration successful!</string>
     <string name="shows_screen_title">Shows</string>
     <string name="the_office_title">The Office</string>
     <string name="krv_nije_voda_title">Krv nije voda</string>
@@ -43,7 +44,6 @@
     <string name="register_screen_repeat_password_hint">Repeat password</string>
     <string name="register_screen_register_button">Register</string>
     <string name="login_screen_register_button">Register</string>
-
     <string name="register_screen_registration_failed_dialog_title">Registration failed</string>
     <string name="OK">OK</string>
 </resources>

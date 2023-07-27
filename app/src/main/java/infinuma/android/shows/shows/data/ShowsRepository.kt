@@ -5,10 +5,14 @@ import android.graphics.BitmapFactory
 import infinuma.android.shows.R
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
+import infinuma.android.shows.network.ShowRemoteApi
+import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
 import infinuma.android.shows.shows.models.ShowCardUi
 
 class ShowsRepository(
-    private val context: Context
+    private val context: Context,
+    private val showRemoteApi: ShowRemoteApi,
+    private val showInfoMapper: ShowInfoMapper,
 ) {
 
     fun getShows() = listOf(
@@ -131,6 +135,11 @@ class ShowsRepository(
     fun getShow(id: String) = getShows().firstOrNull { show ->
         show.id == id
     }
+
+    suspend fun listShows(
+    ) = showInfoMapper.fromResponse(
+        showRemoteApi.listShows()
+    )
 
     fun getReviews() = RatingUi(
         3,

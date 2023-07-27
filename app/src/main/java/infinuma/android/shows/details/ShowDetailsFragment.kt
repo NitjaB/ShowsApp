@@ -16,6 +16,7 @@ import infinuma.android.shows.details.viewModel.ShowDetailsViewModel
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.shows.data.ShowsRepository
+import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
 import infinuma.android.shows.utils.SharedPrefsSource
 import infinuma.android.shows.utils.loadWithGlide
 
@@ -30,7 +31,11 @@ class ShowDetailsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.init(
             args.id,
-            ShowsRepository(requireContext()),
+            ShowsRepository(
+                requireContext(),
+                RemoteApiSingleton.getRemoteApi(),
+                ShowInfoMapper()
+            ),
             UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext(), RemoteApiSingleton.getRemoteApi())
         )
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)

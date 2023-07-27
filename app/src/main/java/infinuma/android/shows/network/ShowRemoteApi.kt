@@ -1,5 +1,6 @@
 package infinuma.android.shows.network
 
+import infinuma.android.shows.network.models.DisplayShowResponse
 import infinuma.android.shows.network.models.ListShowsResponse
 import infinuma.android.shows.network.models.RegisterUserResponse
 import retrofit2.Call
@@ -7,6 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ShowRemoteApi {
@@ -31,4 +33,9 @@ interface ShowRemoteApi {
         @Query("page") page: Int = 1,
         @Query("Items") items: Int = 60,
     ): ListShowsResponse
+
+    @GET("shows/{id}")
+    suspend fun getShow(
+        @Path("id") id: String
+    ): DisplayShowResponse
 }

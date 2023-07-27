@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ListShowsResponse(
-    @SerialName("shows")
-    val shows: List<ShowResponse>
+data class DisplayShowResponse(
+    @SerialName("show")
+    val show: ShowResponse
 )

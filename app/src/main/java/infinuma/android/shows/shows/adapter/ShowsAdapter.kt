@@ -44,7 +44,7 @@ class ShowViewHolder(
     fun bind(show: ShowCardUi) {
         binding.showCardTitleTextView.text = show.name
         binding.showCardDescriptionTextView.text = show.description
-        binding.showCardImageImageView.loadWithGlide(show.image)
+        binding.showCardImageImageView.loadWithGlide(show.imageUrl)
         binding.root.setOnClickListener { clickListener(show) }
     }
 }

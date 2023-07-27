@@ -1,10 +1,8 @@
 package infinuma.android.shows.shows.models
 
-import android.graphics.Bitmap
-
 data class ShowCardUi(
     val id: String,
-    val image: Bitmap,
+    val imageUrl: String,
     val name: String,
     val description: String,
 )

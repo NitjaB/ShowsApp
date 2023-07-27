@@ -7,6 +7,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ShowRemoteApi {
 
@@ -25,10 +26,9 @@ interface ShowRemoteApi {
         @Field("password") password: String,
     ): RegisterUserResponse
 
-    @FormUrlEncoded
     @GET("shows")
     suspend fun listShows(
-        @Field("page") page: Int = 1,
-        @Field("Items") items: Int = 60,
+        @Query("page") page: Int = 1,
+        @Query("Items") items: Int = 60,
     ): ListShowsResponse
 }

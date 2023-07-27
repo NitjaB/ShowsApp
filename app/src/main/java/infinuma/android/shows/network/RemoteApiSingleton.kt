@@ -18,6 +18,8 @@ object RemoteApiSingleton {
 
     private const val BASE_URL = """https://tv-shows.infinum.academy/#section/Tv-Show-API/"""
     private const val USER_TOKEN_HEADER = "access-token"
+    private const val CLIENT_TOKEN_HEADER = "client"
+    private const val USER_ID_HEADER = "uid"
 
     private lateinit var okHttp: OkHttpClient
     private lateinit var retrofit: Retrofit
@@ -61,9 +63,13 @@ object RemoteApiSingleton {
     private fun createTokenInterceptor(): (chain: Interceptor.Chain) -> Response = { chain ->
         val originalRequest = chain.request()
         val token = TokenRepositoryInstance.get().getToken()
-        val newRequest = if (!token.isNullOrBlank()) {
+        val clintToken = TokenRepositoryInstance.get().getClientToken()
+        val userId = TokenRepositoryInstance.get().getUserId()
+        val newRequest = if (!token.isNullOrBlank() && !clintToken.isNullOrBlank() && !userId.isNullOrBlank()) {
             originalRequest.newBuilder()
                 .header(USER_TOKEN_HEADER, token)
+                .header(CLIENT_TOKEN_HEADER, clintToken)
+                .header(USER_ID_HEADER, userId)
                 .method(originalRequest.method, originalRequest.body)
                 .build()
         } else {
@@ -73,6 +79,12 @@ object RemoteApiSingleton {
         val response = chain.proceed(newRequest)
         TokenRepositoryInstance.get().setUserToken(
             response.headers[USER_TOKEN_HEADER] ?: ""
+        )
+        TokenRepositoryInstance.get().setClientToken(
+            response.headers[CLIENT_TOKEN_HEADER] ?: ""
+        )
+        TokenRepositoryInstance.get().setUserId(
+            response.headers[USER_ID_HEADER] ?: ""
         )
         response
     }

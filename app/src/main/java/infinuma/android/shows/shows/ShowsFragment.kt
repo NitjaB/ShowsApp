@@ -25,6 +25,7 @@ import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.shows.adapter.ShowsAdapter
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
+import infinuma.android.shows.shows.mappers.ShowCardUiMapper
 import infinuma.android.shows.shows.viewmodel.ShowViewModel
 import infinuma.android.shows.utils.FileUtil
 import infinuma.android.shows.utils.SharedPrefsSource
@@ -51,7 +52,8 @@ class ShowsFragment : Fragment() {
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper()
             ),
-            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext(), RemoteApiSingleton.getRemoteApi())
+            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext(), RemoteApiSingleton.getRemoteApi()),
+            ShowCardUiMapper()
         )
         binding = ActivityShowsBinding.inflate(layoutInflater)
         return binding.root

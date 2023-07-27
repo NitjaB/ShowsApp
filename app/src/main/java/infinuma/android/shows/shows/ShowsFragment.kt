@@ -48,7 +48,6 @@ class ShowsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel.init(
             ShowsRepository(
-                requireContext(),
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper()
             ),

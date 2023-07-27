@@ -25,9 +25,9 @@ class ShowDetailsViewModel : ViewModel() {
         this.userRepository = userRepository
         this.showsRepository = showsRepository
         _state.value = ShowDetailsUi(
-            title = showsRepository.getShow(showId)?.name,
+            title = "",
             username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
-            ratingUi = showsRepository.getReviews()
+            ratingUi = RatingUi()
         )
     }
 

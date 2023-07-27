@@ -32,7 +32,6 @@ class ShowDetailsFragment : Fragment() {
         viewModel.init(
             args.id,
             ShowsRepository(
-                requireContext(),
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper()
             ),

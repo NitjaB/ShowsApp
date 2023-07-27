@@ -25,7 +25,7 @@ class ShowViewModel : ViewModel() {
         _state.value = ShowUi(
             this.userRepository.getUserAvatar(),
             this.userRepository.getUsername(),
-            this.showsRepository.getShows()
+            listOf()
         )
     }
 
@@ -37,7 +37,7 @@ class ShowViewModel : ViewModel() {
 
     fun showShows() {
         _state.value = _state.value?.copy(
-            shows = showsRepository.getShows()
+            shows = listOf()
         )
     }
 

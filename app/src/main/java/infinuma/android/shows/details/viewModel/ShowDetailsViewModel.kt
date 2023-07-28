@@ -48,7 +48,7 @@ class ShowDetailsViewModel : ViewModel() {
     }
 
     private fun createReviewUi(grade: Int, review: String) = ReviewUi(
-        userRepository.getUserAvatar(),
+        "",
         _state.value?.username ?: "",
         grade,
         review,

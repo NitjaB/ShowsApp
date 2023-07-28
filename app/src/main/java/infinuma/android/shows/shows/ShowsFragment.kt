@@ -19,6 +19,7 @@ import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.login.LoginFragmentDirections
 import infinuma.android.shows.login.domain.UserRepository
+import infinuma.android.shows.login.domain.mappers.UserMapper
 import infinuma.android.shows.logout.LogoutBottomSheetDialog
 import infinuma.android.shows.logout.model.LogoutBottomSheetDialogUi
 import infinuma.android.shows.network.RemoteApiSingleton
@@ -52,7 +53,12 @@ class ShowsFragment : Fragment() {
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper()
             ),
-            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext(), RemoteApiSingleton.getRemoteApi()),
+            UserRepository(
+                sharedPreferences = SharedPrefsSource.getSharedPrefs(),
+                context = requireContext(),
+                showRemoteApi = RemoteApiSingleton.getRemoteApi(),
+                userMapper = UserMapper()
+            ),
             ShowCardUiMapper()
         )
         binding = ActivityShowsBinding.inflate(layoutInflater)

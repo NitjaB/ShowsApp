@@ -14,6 +14,7 @@ import infinuma.android.shows.R
 import infinuma.android.shows.databinding.LoginActivityLayoutBinding
 import infinuma.android.shows.login.domain.LoginInputValidator
 import infinuma.android.shows.login.domain.UserRepository
+import infinuma.android.shows.login.domain.mappers.UserMapper
 import infinuma.android.shows.login.viewmodel.LoginViewModel
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.register.placeCursorToEnd
@@ -36,7 +37,8 @@ class LoginFragment : Fragment() {
             userRepository = UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),
                 context = requireContext(),
-                showRemoteApi = RemoteApiSingleton.getRemoteApi()
+                showRemoteApi = RemoteApiSingleton.getRemoteApi(),
+                userMapper = UserMapper()
             ),
             tokenRepository = TokenRepositoryInstance.get()
         )

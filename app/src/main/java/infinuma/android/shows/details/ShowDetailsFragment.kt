@@ -14,6 +14,7 @@ import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
 import infinuma.android.shows.details.viewModel.ShowDetailsViewModel
 import infinuma.android.shows.login.domain.UserRepository
+import infinuma.android.shows.login.domain.mappers.UserMapper
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
@@ -35,7 +36,12 @@ class ShowDetailsFragment : Fragment() {
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper()
             ),
-            UserRepository(SharedPrefsSource.getSharedPrefs(), requireContext(), RemoteApiSingleton.getRemoteApi())
+            UserRepository(
+                sharedPreferences = SharedPrefsSource.getSharedPrefs(),
+                context = requireContext(),
+                showRemoteApi = RemoteApiSingleton.getRemoteApi(),
+                userMapper = UserMapper()
+            )
         )
         binding = ActivityShowDetailsBinding.inflate(layoutInflater)
         return binding.root

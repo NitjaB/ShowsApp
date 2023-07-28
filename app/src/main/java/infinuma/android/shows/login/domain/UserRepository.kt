@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import infinuma.android.shows.R
+import infinuma.android.shows.login.domain.mappers.UserMapper
 import infinuma.android.shows.login.domain.models.User
 import infinuma.android.shows.network.ShowRemoteApi
 import infinuma.android.shows.utils.FileUtil
@@ -14,6 +15,7 @@ class UserRepository(
     private val sharedPreferences: SharedPreferences,
     private val context: Context,
     private val showRemoteApi: ShowRemoteApi,
+    private val userMapper: UserMapper,
 ) {
     companion object {
         private const val SHARED_PREFS_REMEMBER_ME = "sharedPrefsRememberMe"
@@ -24,7 +26,11 @@ class UserRepository(
     suspend fun login(
         email: String,
         password: String
-    ) = showRemoteApi.login(email, password)
+    ) {
+        val response = showRemoteApi.login(email, password)
+        val user = userMapper.fromResources(response.user)
+        saveUser(user)
+    }
 
     fun isUserRemembered() = sharedPreferences.getBoolean(SHARED_PREFS_REMEMBER_ME, false)
     fun setRememberedUser(remember: Boolean) {
@@ -34,7 +40,7 @@ class UserRepository(
         }
     }
 
-    fun saveUser(user: User) {
+    private fun saveUser(user: User) {
         with(sharedPreferences.edit()) {
             putString(SHARED_PREFS_USER_EMAIL, user.email)
             putString(SHARED_PREFS_USER_IMAGE_URL, user.avatarUrl)

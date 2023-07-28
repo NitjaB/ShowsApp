@@ -18,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.details.domain.mappers.RatingMapper
+import infinuma.android.shows.details.domain.mappers.ReviewMapper
 import infinuma.android.shows.login.LoginFragmentDirections
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.domain.mappers.UserMapper
@@ -53,7 +54,8 @@ class ShowsFragment : Fragment() {
             ShowsRepository(
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper(),
-                RatingMapper()
+                RatingMapper(),
+                ReviewMapper()
             ),
             UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),

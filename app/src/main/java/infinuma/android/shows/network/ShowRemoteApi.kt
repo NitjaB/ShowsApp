@@ -1,5 +1,6 @@
 package infinuma.android.shows.network
 
+import infinuma.android.shows.network.models.CreateReviewResponse
 import infinuma.android.shows.network.models.DisplayShowResponse
 import infinuma.android.shows.network.models.ListReviewsResponse
 import infinuma.android.shows.network.models.ListShowsResponse
@@ -54,4 +55,12 @@ interface ShowRemoteApi {
     suspend fun getReviews(
         @Path("id") showId: String
     ): ListReviewsResponse
+
+    @FormUrlEncoded
+    @POST("reviews")
+    suspend fun addReview(
+        @Field("rating") rating: Int,
+        @Field("comment") comment: String,
+        @Field("show_id") showId: String,
+    ): CreateReviewResponse
 }

@@ -30,6 +30,8 @@ class ShowDetailsViewModel : ViewModel() {
             val show = showsRepository.getShow(showId)
             _state.value = ShowDetailsUi(
                 title = show.title,
+                showImageUrl = show.imageUrl,
+                description = show.description,
                 username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
                 ratingUi = RatingUi()
             )
@@ -39,6 +41,8 @@ class ShowDetailsViewModel : ViewModel() {
     fun addReview(grade: Int, review: String) {
         _state.value = ShowDetailsUi(
             _state.value?.title,
+            _state.value?.showImageUrl ?: "",
+            _state.value?.description ?: "",
             _state.value?.username,
             addReview(
                 state.value?.ratingUi ?: RatingUi(),

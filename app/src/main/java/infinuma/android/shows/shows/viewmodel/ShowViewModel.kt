@@ -30,7 +30,7 @@ class ShowViewModel : ViewModel() {
         viewModelScope.launch {
             val domainShows = showsRepository.listShows()
             _state.value = ShowUi(
-                this@ShowViewModel.userRepository.getUserAvatar(),
+                this@ShowViewModel.userRepository.getSavedUser()?.avatarUrl ?: "",
                 this@ShowViewModel.userRepository.getUsername(),
                 showCardUiMapper.mapFromDomain(domainShows)
 
@@ -57,8 +57,8 @@ class ShowViewModel : ViewModel() {
 
     fun changeProfilePicture(photo: Bitmap) {
         userRepository.setUserAvatar(photo)
-        _state.value = _state.value?.copy(
-            userAvatar = photo
-        )
+        /*        _state.value = _state.value?.copy(
+                    userAvatarUrl = photo
+                )*/
     }
 }

@@ -21,7 +21,7 @@ class LogoutBottomSheetDialog(
         binding = LogoutDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.usernameTextView.text = state.email
-        binding.profilePictureImageView.loadWithGlide(state.avatar)
+        binding.profilePictureImageView.loadWithGlide(state.avatarUrl)
         binding.logoutButton.setOnClickListener {
             dismiss()
             onLogoutClick()

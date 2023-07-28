@@ -71,7 +71,7 @@ class ShowsFragment : Fragment() {
             LogoutBottomSheetDialog(
                 state = LogoutBottomSheetDialogUi(
                     email = viewModel.state.value?.userEmail ?: "",
-                    avatar = viewModel.state.value?.userAvatar,
+                    avatarUrl = viewModel.state.value?.userAvatarUrl ?: "",
                 ),
                 onLogoutClick = { showLogoutDialog() },
                 onChangeProfilePictureClick = { handleChangeProfilePictureClick() },
@@ -79,7 +79,7 @@ class ShowsFragment : Fragment() {
             ).show()
         }
         viewModel.state.observe(viewLifecycleOwner) {
-            binding.profilePictureImageView.loadWithGlide(it.userAvatar)
+            binding.profilePictureImageView.loadWithGlide(it.userAvatarUrl ?: "")
             adapter.deleteShows()
             adapter.addShows(it.shows)
             if (it.shows.isEmpty()) {

@@ -1,6 +1,7 @@
 package infinuma.android.shows.network
 
 import infinuma.android.shows.network.models.DisplayShowResponse
+import infinuma.android.shows.network.models.ListReviewsResponse
 import infinuma.android.shows.network.models.ListShowsResponse
 import infinuma.android.shows.network.models.RegisterUserResponse
 import okhttp3.MultipartBody
@@ -48,4 +49,9 @@ interface ShowRemoteApi {
     suspend fun saveUserAvatar(
         @Part image: MultipartBody.Part
     )
+
+    @GET("shows/{id}/reviews")
+    suspend fun getReviews(
+        @Path("id") showId: String
+    ): ListReviewsResponse
 }

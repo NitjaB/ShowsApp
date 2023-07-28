@@ -15,4 +15,6 @@ data class RegisterUserUserResponse(
     val id: Int,
     @SerialName("email")
     val email: String,
+    @SerialName("image_url")
+    val avatarUrl: String?,
 )

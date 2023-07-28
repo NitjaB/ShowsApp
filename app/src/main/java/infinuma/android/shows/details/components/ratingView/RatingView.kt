@@ -32,7 +32,10 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
             ratingUi.averageReviewGrade?.let { grade ->
                 binding.ratingBar.rating = grade
             }
+            binding.info.visibility = VISIBLE
+            binding.ratingBar.visibility = VISIBLE
             binding.reviewsRecyclerView.visibility = VISIBLE
+            binding.noReviewsTextView.visibility = GONE
             adapter.resetReviews(ratingUi.reviews)
         } else {
             binding.info.visibility = GONE

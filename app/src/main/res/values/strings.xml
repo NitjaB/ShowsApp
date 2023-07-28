@@ -29,6 +29,7 @@
     <string name="show_details_screen_no_reviews">No reviews yet.</string>
     <string name="show_details_screen_add_review_dialog_title">Shows app</string>
     <string name="show_deatils_screen_init_error_dialog_title">Error while getting show</string>
+    <string name="show_details_screen_add_review_error_dialog_title">Error while adding review</string>
     <string name="show_details_screen_add_review_dialog_message">Are you sure you want to add a new review?</string>
     <string name="show_details_screen_add_review_dialog_cancel_button">CANCEL</string>
     <string name="show_details_screen_add_review_dialog_confirmation_button">ADD</string>

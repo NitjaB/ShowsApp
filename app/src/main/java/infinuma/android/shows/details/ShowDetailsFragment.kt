@@ -61,6 +61,9 @@ class ShowDetailsFragment : Fragment() {
         viewModel.showDetailsInitErrorDialog.observe(viewLifecycleOwner) {
             showDetailsInitErrorDialog()
         }
+        viewModel.showDetailsAddReviewErrorDialog.observe(viewLifecycleOwner) {
+            showAddReviewErrorDialog()
+        }
     }
 
     private fun initScreen() {
@@ -88,6 +91,13 @@ class ShowDetailsFragment : Fragment() {
 
     private fun showDetailsInitErrorDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
         .setTitle(R.string.show_deatils_screen_init_error_dialog_title)
+        .setPositiveButton(R.string.OK) { _, _ -> }
+        .setCancelable(false)
+        .create()
+        .show()
+
+    private fun showAddReviewErrorDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+        .setTitle(R.string.show_details_screen_add_review_error_dialog_title)
         .setPositiveButton(R.string.OK) { _, _ -> }
         .setCancelable(false)
         .create()

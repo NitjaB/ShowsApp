@@ -1,6 +1,5 @@
 package infinuma.android.shows.details
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
@@ -58,6 +58,9 @@ class ShowDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initScreen()
+        viewModel.showDetailsInitErrorDialog.observe(viewLifecycleOwner) {
+            showDetailsInitErrorDialog()
+        }
     }
 
     private fun initScreen() {
@@ -82,4 +85,11 @@ class ShowDetailsFragment : Fragment() {
             requireContext()
         ).show()
     }
+
+    private fun showDetailsInitErrorDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+        .setTitle(R.string.show_deatils_screen_init_error_dialog_title)
+        .setPositiveButton(R.string.OK) { _, _ -> }
+        .setCancelable(false)
+        .create()
+        .show()
 }

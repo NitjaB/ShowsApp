@@ -12,6 +12,8 @@ import infinuma.android.shows.details.models.ReviewUi
 import infinuma.android.shows.details.models.ShowDetailsUi
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
+import infinuma.android.shows.utils.SingleLiveEvent
+import java.lang.Exception
 import kotlinx.coroutines.launch
 
 class ShowDetailsViewModel : ViewModel() {
@@ -24,6 +26,9 @@ class ShowDetailsViewModel : ViewModel() {
 
     private val _state = MutableLiveData(ShowDetailsUi())
     val state: LiveData<ShowDetailsUi> = _state
+
+    private val _showDetailsInitErrorDialog = SingleLiveEvent<Boolean>()
+    val showDetailsInitErrorDialog: LiveData<Boolean> = _showDetailsInitErrorDialog
 
     fun init(
         showId: String,
@@ -38,15 +43,19 @@ class ShowDetailsViewModel : ViewModel() {
         this.ratingUiMapper = ratingUiMapper
         this.reviewUiMapper = reviewUiMapper
         viewModelScope.launch {
-            val show = showsRepository.getShow(showId)
-            val reviews = showsRepository.getReviews(showId)
-            _state.value = ShowDetailsUi(
-                title = show.title,
-                showImageUrl = show.imageUrl,
-                description = show.description,
-                username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
-                ratingUi = ratingUiMapper.fromDomain(reviews)
-            )
+            try {
+                val show = showsRepository.getShow(showId)
+                val reviews = showsRepository.getReviews(showId)
+                _state.value = ShowDetailsUi(
+                    title = show.title,
+                    showImageUrl = show.imageUrl,
+                    description = show.description,
+                    username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
+                    ratingUi = ratingUiMapper.fromDomain(reviews)
+                )
+            } catch (_: Exception) {
+                _showDetailsInitErrorDialog.value = true
+            }
         }
     }
 

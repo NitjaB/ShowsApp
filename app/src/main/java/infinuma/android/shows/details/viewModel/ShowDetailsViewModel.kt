@@ -39,12 +39,8 @@ class ShowDetailsViewModel : ViewModel() {
     }
 
     fun addReview(grade: Int, review: String) {
-        _state.value = ShowDetailsUi(
-            _state.value?.title,
-            _state.value?.showImageUrl ?: "",
-            _state.value?.description ?: "",
-            _state.value?.username,
-            addReview(
+        _state.value = _state.value?.copy(
+            ratingUi = addReview(
                 state.value?.ratingUi ?: RatingUi(),
                 createReviewUi(grade, review)
             )

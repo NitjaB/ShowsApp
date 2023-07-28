@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
+import infinuma.android.shows.details.domain.mappers.RatingMapper
 import infinuma.android.shows.details.viewModel.ShowDetailsViewModel
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.domain.mappers.UserMapper
@@ -34,7 +35,8 @@ class ShowDetailsFragment : Fragment() {
             args.id,
             ShowsRepository(
                 RemoteApiSingleton.getRemoteApi(),
-                ShowInfoMapper()
+                ShowInfoMapper(),
+                RatingMapper()
             ),
             UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),

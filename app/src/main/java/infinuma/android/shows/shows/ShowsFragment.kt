@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ActivityShowsBinding
+import infinuma.android.shows.details.domain.mappers.RatingMapper
 import infinuma.android.shows.login.LoginFragmentDirections
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.login.domain.mappers.UserMapper
@@ -51,7 +52,8 @@ class ShowsFragment : Fragment() {
         viewModel.init(
             ShowsRepository(
                 RemoteApiSingleton.getRemoteApi(),
-                ShowInfoMapper()
+                ShowInfoMapper(),
+                RatingMapper()
             ),
             UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),

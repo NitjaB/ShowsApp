@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.mappers.ShowCardUiMapper
+import infinuma.android.shows.shows.models.ShowCardUi
 import infinuma.android.shows.shows.models.ShowUi
 import infinuma.android.shows.utils.SingleLiveEvent
 import java.lang.Exception
@@ -33,12 +34,16 @@ class ShowViewModel : ViewModel() {
         this.userRepository = userRepository
         this.showsRepository = showsRepository
         viewModelScope.launch {
-            val domainShows = showsRepository.listShows()
+            val shows = mutableListOf<ShowCardUi>()
+            try {
+                val domainShows = showsRepository.listShows()
+                shows.addAll(showCardUiMapper.mapFromDomain(domainShows))
+            } catch (_: Exception) {
+            }
             _state.value = ShowUi(
                 this@ShowViewModel.userRepository.getSavedUser()?.avatarUrl ?: "",
                 this@ShowViewModel.userRepository.getUsername(),
-                showCardUiMapper.mapFromDomain(domainShows)
-
+                shows = shows
             )
         }
     }

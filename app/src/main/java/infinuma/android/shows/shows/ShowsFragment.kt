@@ -97,6 +97,9 @@ class ShowsFragment : Fragment() {
         viewModel.showImageUploadErrorDialog.observe(viewLifecycleOwner) {
             showImageUploadErrorDialog()
         }
+        viewModel.showScreenErrorDialogTitle.observe(viewLifecycleOwner) {
+            showScreenErrorDialogTitle()
+        }
         setUpRecyclerView()
         setUpToggleButton()
     }
@@ -167,6 +170,13 @@ class ShowsFragment : Fragment() {
 
     private fun showImageUploadErrorDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
         .setTitle(R.string.shows_screen_upload_title_error_dialog)
+        .setPositiveButton(R.string.OK) { _, _ -> }
+        .setCancelable(false)
+        .create()
+        .show()
+
+    private fun showScreenErrorDialogTitle() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+        .setTitle(R.string.shows_screen_error_dialog_title)
         .setPositiveButton(R.string.OK) { _, _ -> }
         .setCancelable(false)
         .create()

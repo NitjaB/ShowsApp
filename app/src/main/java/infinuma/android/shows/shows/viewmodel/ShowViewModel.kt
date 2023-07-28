@@ -12,6 +12,7 @@ import infinuma.android.shows.shows.models.ShowCardUi
 import infinuma.android.shows.shows.models.ShowUi
 import infinuma.android.shows.utils.SingleLiveEvent
 import java.lang.Exception
+import java.lang.NullPointerException
 import kotlinx.coroutines.launch
 
 class ShowViewModel : ViewModel() {
@@ -26,6 +27,9 @@ class ShowViewModel : ViewModel() {
     private val _showImageUploadErrorDialog = SingleLiveEvent<Boolean>()
     val showImageUploadErrorDialog: LiveData<Boolean> = _showImageUploadErrorDialog
 
+    private val _showScreenErrorDialogTitle = SingleLiveEvent<Boolean>()
+    val showScreenErrorDialogTitle: LiveData<Boolean> = _showScreenErrorDialogTitle
+
     fun init(
         showsRepository: ShowsRepository,
         userRepository: UserRepository,
@@ -39,6 +43,7 @@ class ShowViewModel : ViewModel() {
                 val domainShows = showsRepository.listShows()
                 shows.addAll(showCardUiMapper.mapFromDomain(domainShows))
             } catch (_: Exception) {
+                _showScreenErrorDialogTitle.value = true
             }
             _state.value = ShowUi(
                 this@ShowViewModel.userRepository.getSavedUser()?.avatarUrl ?: "",

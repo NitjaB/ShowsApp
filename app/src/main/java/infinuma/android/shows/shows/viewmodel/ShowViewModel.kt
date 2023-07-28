@@ -9,6 +9,8 @@ import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.mappers.ShowCardUiMapper
 import infinuma.android.shows.shows.models.ShowUi
+import infinuma.android.shows.utils.SingleLiveEvent
+import java.lang.Exception
 import kotlinx.coroutines.launch
 
 class ShowViewModel : ViewModel() {
@@ -19,6 +21,9 @@ class ShowViewModel : ViewModel() {
 
     private val _state = MutableLiveData(ShowUi())
     val state: LiveData<ShowUi> = _state
+
+    private val _showImageUploadErrorDialog = SingleLiveEvent<Boolean>()
+    val showImageUploadErrorDialog: LiveData<Boolean> = _showImageUploadErrorDialog
 
     fun init(
         showsRepository: ShowsRepository,
@@ -56,7 +61,13 @@ class ShowViewModel : ViewModel() {
     }
 
     fun changeProfilePicture(photo: Bitmap) {
-        userRepository.setUserAvatar(photo)
+        viewModelScope.launch {
+            try {
+                userRepository.setUserAvatar(photo)
+            } catch (e: Exception) {
+                _showImageUploadErrorDialog.value = true
+            }
+        }
         /*        _state.value = _state.value?.copy(
                     userAvatarUrl = photo
                 )*/

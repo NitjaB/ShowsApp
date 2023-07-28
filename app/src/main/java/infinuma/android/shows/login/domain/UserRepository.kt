@@ -10,6 +10,11 @@ import infinuma.android.shows.login.domain.models.User
 import infinuma.android.shows.network.ShowRemoteApi
 import infinuma.android.shows.utils.FileUtil
 import java.io.ByteArrayOutputStream
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 class UserRepository(
     private val sharedPreferences: SharedPreferences,
@@ -75,8 +80,14 @@ class UserRepository(
         }
     }
 
-    fun setUserAvatar(bitmap: Bitmap) {
+    suspend fun setUserAvatar(bitmap: Bitmap) {
         FileUtil.saveBitmap(context, bitmap)
+        val userAvatarFile = FileUtil.getImageFile(context)
+        if (userAvatarFile != null) {
+            val requestBody = userAvatarFile.asRequestBody("image/*".toMediaTypeOrNull())
+            val multipart = MultipartBody.Part.createFormData("upload", userAvatarFile.name, requestBody)
+            showRemoteApi.saveUserAvatar(multipart)
+        }
     }
 
     fun deleteUserAvatar() {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import infinuma.android.shows.details.domain.EmailParser
+import infinuma.android.shows.details.mappers.RatingUiMapper
 import infinuma.android.shows.details.models.RatingUi
 import infinuma.android.shows.details.models.ReviewUi
 import infinuma.android.shows.details.models.ShowDetailsUi
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class ShowDetailsViewModel : ViewModel() {
     private lateinit var userRepository: UserRepository
     private lateinit var showsRepository: ShowsRepository
+    private lateinit var ratingUiMapper: RatingUiMapper
 
     private val _state = MutableLiveData(ShowDetailsUi())
     val state: LiveData<ShowDetailsUi> = _state
@@ -22,18 +24,21 @@ class ShowDetailsViewModel : ViewModel() {
     fun init(
         showId: String,
         showsRepository: ShowsRepository,
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        ratingUiMapper: RatingUiMapper,
     ) {
         this.userRepository = userRepository
         this.showsRepository = showsRepository
+        this.ratingUiMapper = ratingUiMapper
         viewModelScope.launch {
             val show = showsRepository.getShow(showId)
+            val reviews = showsRepository.getReviews(showId)
             _state.value = ShowDetailsUi(
                 title = show.title,
                 showImageUrl = show.imageUrl,
                 description = show.description,
                 username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
-                ratingUi = RatingUi()
+                ratingUi = ratingUiMapper.fromDomain(reviews)
             )
         }
     }

@@ -10,13 +10,11 @@ class RatingMapper {
         numberOfReviews: Int,
         averageGrade: Float,
         listReviewsResponse: ListReviewsResponse
-    ) {
-        Rating(
-            numberOfReviews = numberOfReviews,
-            averageReviewGrade = averageGrade,
-            reviews = mapFromResource(listReviewsResponse)
-        )
-    }
+    ) = Rating(
+        numberOfReviews = numberOfReviews,
+        averageReviewGrade = averageGrade,
+        reviews = mapFromResource(listReviewsResponse)
+    )
 
     private fun mapFromResource(listReviewsResponse: ListReviewsResponse) =
         listReviewsResponse.reviewsResponse.map { response ->

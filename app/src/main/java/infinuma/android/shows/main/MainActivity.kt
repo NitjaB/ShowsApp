@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import infinuma.android.shows.database.RoomInstance
 import infinuma.android.shows.databinding.MainActivityLayoutBinding
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.register.viewModel.LoginRegisterSharedViewModel
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         RemoteApiSingleton.bind(applicationContext)
         SharedPrefsSource.init(applicationContext)
         TokenRepositoryInstance.init(SharedPrefsSource.getSharedPrefs())
+        RoomInstance.instantiate(this)
         makeStatusBarTransparent()
         binding = MainActivityLayoutBinding.inflate(layoutInflater)
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)

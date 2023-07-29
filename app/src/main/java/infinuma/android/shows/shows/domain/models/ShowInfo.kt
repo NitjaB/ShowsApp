@@ -1,6 +1,11 @@
 package infinuma.android.shows.shows.domain.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity("show_table")
 data class ShowInfo(
+    @PrimaryKey
     val id: Int,
     val averageRating: Float?,
     val description: String,

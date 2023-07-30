@@ -7,21 +7,21 @@ import infinuma.android.shows.shows.domain.models.ShowInfo
 
 class ShowInfoMapper {
 
-    fun fromResponse(response: DisplayShowResponse) = mapShow(response.show)
+    fun fromResponse(response: DisplayShowResponse) = mapResponse(response.show)
 
     fun fromResponse(response: ListShowsResponse): List<ShowInfo> {
         val showsInfo = mutableListOf<ShowInfo>()
-        response.shows.forEach { showsInfo.add(mapShow(it)) }
+        response.shows.forEach { showsInfo.add(mapResponse(it)) }
         return showsInfo
     }
 
-    private fun mapShow(show: ShowResponse) =
+    private fun mapResponse(response: ShowResponse) =
         ShowInfo(
-            id = show.id,
-            averageRating = show.average_rating ?: 0f,
-            description = show.description ?: "",
-            imageUrl = show.imageUrl,
-            numberOfReviews = show.numberOfReviews,
-            title = show.title
+            id = response.id,
+            averageRating = response.average_rating ?: 0f,
+            description = response.description,
+            imageUrl = response.imageUrl,
+            numberOfReviews = response.numberOfReviews,
+            title = response.title
         )
 }

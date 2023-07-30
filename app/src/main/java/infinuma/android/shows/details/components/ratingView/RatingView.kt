@@ -3,15 +3,17 @@ package infinuma.android.shows.details.components.ratingView
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import infinuma.android.shows.R
 import infinuma.android.shows.databinding.ReviewLayoutBinding
 import infinuma.android.shows.details.models.RatingUi
 
-class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class RatingView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
-    private val binding = ReviewLayoutBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding = ReviewLayoutBinding.inflate(LayoutInflater.from(context), this)
 
     private var ratingUi: RatingUi? = null
 
@@ -22,6 +24,10 @@ class RatingView(context: Context, attrs: AttributeSet) : FrameLayout(context, a
             layoutManager = LinearLayoutManager(context)
             adapter = this@RatingView.adapter
         }
+        binding.root.layoutParams = LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     fun bind(ratingUi: RatingUi) {

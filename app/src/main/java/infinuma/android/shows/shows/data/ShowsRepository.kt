@@ -49,7 +49,7 @@ class ShowsRepository(
         val isConnectedToInternet = networkConnection.isNetworkConnected()
         val reviews = mutableListOf<Review>()
         if (isConnectedToInternet) {
-            reviews.addAll(reviewMapper.mapFromResponse(showRemoteApi.getReviews(showId).reviewsResponse))
+            reviews.addAll(reviewMapper.mapFromResponse(showId, showRemoteApi.getReviews(showId).reviewsResponse))
             reviews.forEach { reviewDao.insert(it) }
         } else {
             reviews.addAll(reviewDao.getAllReviews())
@@ -72,6 +72,6 @@ class ShowsRepository(
             rating = rating,
             comment = review
         )
-        return reviewMapper.mapFromResponse(response.review)
+        return reviewMapper.mapFromResponse(showId, response.review)
     }
 }

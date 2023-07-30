@@ -6,24 +6,13 @@ import infinuma.android.shows.network.models.ListReviewsResponse
 
 class RatingMapper {
 
-    fun mapFromResource(
+    fun map(
         numberOfReviews: Int,
         averageGrade: Float,
-        listReviewsResponse: ListReviewsResponse
+        reviews: List<Review>
     ) = Rating(
         numberOfReviews = numberOfReviews,
         averageReviewGrade = averageGrade,
-        reviews = mapFromResource(listReviewsResponse)
+        reviews = reviews
     )
-
-    private fun mapFromResource(listReviewsResponse: ListReviewsResponse) =
-        listReviewsResponse.reviewsResponse.map { response ->
-            Review(
-                id = response.id,
-                avatarUrl = response.user.avatarUrl ?: "",
-                review = response.comment,
-                starGrade = response.rating,
-                username = response.user.email
-            )
-        }
 }

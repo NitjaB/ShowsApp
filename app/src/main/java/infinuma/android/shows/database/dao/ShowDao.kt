@@ -1,12 +1,16 @@
 package infinuma.android.shows.database.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import infinuma.android.shows.shows.domain.models.ShowInfo
 
 @Dao
 interface ShowDao {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(showInfo: ShowInfo)
     @Query("SELECT * FROM show_table")
     fun getAllShows(): List<ShowInfo>
 

@@ -1,12 +1,14 @@
 package infinuma.android.shows.shows.data
 
 import infinuma.android.shows.database.dao.ReviewDao
+import infinuma.android.shows.database.dao.ShowDao
 import infinuma.android.shows.details.domain.mappers.RatingMapper
 import infinuma.android.shows.details.domain.mappers.ReviewMapper
 import infinuma.android.shows.details.domain.models.Rating
 import infinuma.android.shows.details.domain.models.Review
 import infinuma.android.shows.network.ShowRemoteApi
 import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
+import infinuma.android.shows.shows.domain.models.ShowInfo
 import infinuma.android.shows.utils.NetworkConnection
 
 class ShowsRepository(
@@ -16,15 +18,32 @@ class ShowsRepository(
     private val reviewMapper: ReviewMapper,
     private val networkConnection: NetworkConnection,
     private val reviewDao: ReviewDao,
+    private val showDao: ShowDao
 ) {
 
-    suspend fun listShows(
-    ) = showInfoMapper.fromResponse(
-        showRemoteApi.listShows()
-    )
+    suspend fun listShows(): List<ShowInfo> {
+        val isConnectedToInternet = networkConnection.isNetworkConnected()
+        val shows = mutableListOf<ShowInfo>()
+        if(isConnectedToInternet) {
+            shows.addAll(showInfoMapper.fromResponse(showRemoteApi.listShows()))
+            shows.forEach{showDao.insert(it)}
+        } else{
+            shows.addAll(showDao.getAllShows())
+        }
+        return shows
+    }
 
-    suspend fun getShow(showId: String) =
-        showInfoMapper.fromResponse(showRemoteApi.getShow(showId))
+    suspend fun getShow(showId: String) : ShowInfo {
+        val show: ShowInfo
+        val isConnectedToInternet = networkConnection.isNetworkConnected()
+        if(isConnectedToInternet) {
+            show = showInfoMapper.fromResponse(showRemoteApi.getShow(showId))
+            showDao.insert(show)
+        } else {
+            show = showDao.getShowById(showId)
+        }
+        return show
+    }
 
     suspend fun getReviews(showId: String): Rating {
         val isConnectedToInternet = networkConnection.isNetworkConnected()

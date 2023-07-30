@@ -44,7 +44,8 @@ class ShowDetailsFragment : Fragment() {
                 RatingMapper(),
                 ReviewMapper(),
                 NetworkConnection(requireActivity().applicationContext),
-                RoomInstance.get().reviewDao()
+                RoomInstance.get().reviewDao(),
+                RoomInstance.get().showDao()
             ),
             UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),

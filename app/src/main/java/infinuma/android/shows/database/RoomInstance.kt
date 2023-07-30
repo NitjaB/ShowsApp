@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import infinuma.android.shows.database.dao.ReviewDao
 import infinuma.android.shows.database.dao.ShowDao
+import infinuma.android.shows.details.domain.models.Review
+import infinuma.android.shows.shows.domain.models.ShowInfo
 
 object RoomInstance {
 
@@ -19,7 +21,7 @@ object RoomInstance {
 
 }
 
-@Database(entities = [ReviewDao::class, ShowDao::class], version = 1)
+@Database(entities = [Review::class, ShowInfo::class], version = 1)
 abstract class ShowDatabase : RoomDatabase() {
 
     abstract fun reviewDao(): ReviewDao

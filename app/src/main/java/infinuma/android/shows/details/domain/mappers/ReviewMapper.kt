@@ -5,17 +5,18 @@ import infinuma.android.shows.network.models.ReviewResponse
 
 class ReviewMapper {
 
-    fun mapFromResponse(response: ReviewResponse) =
+    fun mapFromResponse(showId: String, response: ReviewResponse) =
         Review(
             id = response.id,
             avatarUrl = response.user.avatarUrl ?: "",
             review = response.comment,
             starGrade = response.rating,
-            username = response.user.email
+            username = response.user.email,
+            showId = showId
         )
 
-    fun mapFromResponse(response: List<ReviewResponse>) =
+    fun mapFromResponse(showId: String, response: List<ReviewResponse>) =
         response.map {
-            mapFromResponse(it)
+            mapFromResponse(showId, it)
         }
 }

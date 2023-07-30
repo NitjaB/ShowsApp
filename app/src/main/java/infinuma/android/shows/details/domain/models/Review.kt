@@ -11,4 +11,5 @@ data class Review(
     val username: String,
     val starGrade: Int,
     val review: String?,
+    val showId: String,
 )

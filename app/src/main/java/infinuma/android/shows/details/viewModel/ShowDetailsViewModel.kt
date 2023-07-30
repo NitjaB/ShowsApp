@@ -15,6 +15,7 @@ import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.SingleLiveEvent
 import java.lang.NullPointerException
 import kotlin.Exception
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ShowDetailsViewModel : ViewModel() {
@@ -46,25 +47,27 @@ class ShowDetailsViewModel : ViewModel() {
         this.showsRepository = showsRepository
         this.ratingUiMapper = ratingUiMapper
         this.reviewUiMapper = reviewUiMapper
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val show = showsRepository.getShow(showId)
                 val reviews = showsRepository.getReviews(showId)
-                _state.value = ShowDetailsUi(
-                    title = show.title,
-                    showImageUrl = show.imageUrl,
-                    description = show.description,
-                    username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
-                    ratingUi = ratingUiMapper.fromDomain(reviews)
+                _state.postValue(
+                    ShowDetailsUi(
+                        title = show.title,
+                        showImageUrl = show.imageUrl,
+                        description = show.description,
+                        username = EmailParser.parseToUsername(userRepository.getUsername() ?: ""),
+                        ratingUi = ratingUiMapper.fromDomain(reviews)
+                    )
                 )
-            } catch (_: Exception) {
+            } catch (e: Exception) {
                 _showDetailsInitErrorDialog.value = true
             }
         }
     }
 
     fun addReview(grade: Int, review: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val review = showsRepository.addReview(
                     showId = showId,

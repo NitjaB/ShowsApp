@@ -13,4 +13,9 @@ class ReviewMapper {
             starGrade = response.rating,
             username = response.user.email
         )
+
+    fun mapFromResponse(response: List<ReviewResponse>) =
+        response.map {
+            mapFromResponse(it)
+        }
 }

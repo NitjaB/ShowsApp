@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
+import infinuma.android.shows.database.RoomInstance
 import infinuma.android.shows.databinding.ActivityShowsBinding
 import infinuma.android.shows.details.domain.mappers.RatingMapper
 import infinuma.android.shows.details.domain.mappers.ReviewMapper
@@ -30,7 +31,7 @@ import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
 import infinuma.android.shows.shows.mappers.ShowCardUiMapper
 import infinuma.android.shows.shows.viewmodel.ShowViewModel
-import infinuma.android.shows.utils.FileUtil
+import infinuma.android.shows.utils.NetworkConnection
 import infinuma.android.shows.utils.SharedPrefsSource
 import infinuma.android.shows.utils.loadWithGlide
 
@@ -55,7 +56,9 @@ class ShowsFragment : Fragment() {
                 RemoteApiSingleton.getRemoteApi(),
                 ShowInfoMapper(),
                 RatingMapper(),
-                ReviewMapper()
+                ReviewMapper(),
+                NetworkConnection(requireActivity().applicationContext),
+                RoomInstance.get().reviewDao()
             ),
             UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),

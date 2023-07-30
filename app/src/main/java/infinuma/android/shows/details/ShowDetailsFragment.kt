@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import infinuma.android.shows.R
+import infinuma.android.shows.database.RoomInstance
 import infinuma.android.shows.databinding.ActivityShowDetailsBinding
 import infinuma.android.shows.details.components.ratingView.RatingBottomSheetDialog
 import infinuma.android.shows.details.domain.mappers.RatingMapper
@@ -22,6 +23,7 @@ import infinuma.android.shows.login.domain.mappers.UserMapper
 import infinuma.android.shows.network.RemoteApiSingleton
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
+import infinuma.android.shows.utils.NetworkConnection
 import infinuma.android.shows.utils.SharedPrefsSource
 import infinuma.android.shows.utils.loadWithGlide
 
@@ -41,6 +43,8 @@ class ShowDetailsFragment : Fragment() {
                 ShowInfoMapper(),
                 RatingMapper(),
                 ReviewMapper(),
+                NetworkConnection(requireActivity().applicationContext),
+                RoomInstance.get().reviewDao()
             ),
             UserRepository(
                 sharedPreferences = SharedPrefsSource.getSharedPrefs(),

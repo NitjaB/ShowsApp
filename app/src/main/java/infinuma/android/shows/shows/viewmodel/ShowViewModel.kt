@@ -13,6 +13,7 @@ import infinuma.android.shows.shows.models.ShowUi
 import infinuma.android.shows.utils.SingleLiveEvent
 import java.lang.Exception
 import java.lang.NullPointerException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ShowViewModel : ViewModel() {
@@ -37,7 +38,7 @@ class ShowViewModel : ViewModel() {
     ) {
         this.userRepository = userRepository
         this.showsRepository = showsRepository
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val shows = mutableListOf<ShowCardUi>()
             try {
                 val domainShows = showsRepository.listShows()
@@ -45,10 +46,12 @@ class ShowViewModel : ViewModel() {
             } catch (_: Exception) {
                 _showScreenErrorDialogTitle.value = true
             }
-            _state.value = ShowUi(
-                this@ShowViewModel.userRepository.getSavedUser()?.avatarUrl ?: "",
-                this@ShowViewModel.userRepository.getUsername(),
-                shows = shows
+            _state.postValue(
+                ShowUi(
+                    this@ShowViewModel.userRepository.getSavedUser()?.avatarUrl ?: "",
+                    this@ShowViewModel.userRepository.getUsername(),
+                    shows = shows
+                )
             )
         }
     }

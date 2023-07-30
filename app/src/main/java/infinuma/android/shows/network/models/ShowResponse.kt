@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ShowResponse(
     @SerialName("id")
-    val id: Int,
+    val id: String,
     @SerialName("average_rating")
     val average_rating: Float?,
     @SerialName("description")

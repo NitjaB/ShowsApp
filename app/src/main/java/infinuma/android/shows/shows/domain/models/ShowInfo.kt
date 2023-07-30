@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity("show_table")
 data class ShowInfo(
     @PrimaryKey
-    val id: Int,
+    val id: String,
     val averageRating: Float?,
     val description: String,
     val imageUrl: String,

@@ -3,6 +3,7 @@ package infinuma.android.shows.main
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import infinuma.android.shows.database.RoomInstance
 import infinuma.android.shows.databinding.MainActivityLayoutBinding
 import infinuma.android.shows.network.RemoteApiSingleton
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: LoginRegisterSharedViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         RemoteApiSingleton.bind(applicationContext)
         SharedPrefsSource.init(applicationContext)

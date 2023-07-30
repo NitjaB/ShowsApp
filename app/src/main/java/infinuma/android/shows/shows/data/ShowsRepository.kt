@@ -33,10 +33,10 @@ class ShowsRepository(
         return shows
     }
 
-    suspend fun getShow(showId: String) : ShowInfo {
+    suspend fun getShow(showId: String): ShowInfo {
         val show: ShowInfo
         val isConnectedToInternet = networkConnection.isNetworkConnected()
-        if(isConnectedToInternet) {
+        if (isConnectedToInternet) {
             show = showInfoMapper.fromResponse(showRemoteApi.getShow(showId))
             showDao.insert(show)
         } else {
@@ -72,6 +72,8 @@ class ShowsRepository(
             rating = rating,
             comment = review
         )
-        return reviewMapper.mapFromResponse(showId, response.review)
+        val domain = reviewMapper.mapFromResponse(showId, response.review)
+        reviewDao.insert(domain)
+        return domain
     }
 }

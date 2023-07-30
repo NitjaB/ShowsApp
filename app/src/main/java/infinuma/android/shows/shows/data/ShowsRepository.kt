@@ -24,10 +24,10 @@ class ShowsRepository(
     suspend fun listShows(): List<ShowInfo> {
         val isConnectedToInternet = networkConnection.isNetworkConnected()
         val shows = mutableListOf<ShowInfo>()
-        if(isConnectedToInternet) {
+        if (isConnectedToInternet) {
             shows.addAll(showInfoMapper.fromResponse(showRemoteApi.listShows()))
-            shows.forEach{showDao.insert(it)}
-        } else{
+            shows.forEach { showDao.insert(it) }
+        } else {
             shows.addAll(showDao.getAllShows())
         }
         return shows
@@ -52,7 +52,7 @@ class ShowsRepository(
             reviews.addAll(reviewMapper.mapFromResponse(showId, showRemoteApi.getReviews(showId).reviewsResponse))
             reviews.forEach { reviewDao.insert(it) }
         } else {
-            reviews.addAll(reviewDao.getAllReviews())
+            reviews.addAll(reviewDao.getReviewsForShow(showId))
         }
         val show = getShow(showId)
         return ratingMapper.map(

@@ -10,6 +10,7 @@ import infinuma.android.shows.login.domain.models.User
 import infinuma.android.shows.network.ShowRemoteApi
 import infinuma.android.shows.utils.FileUtil
 import java.io.ByteArrayOutputStream
+import java.lang.NullPointerException
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -80,14 +81,18 @@ class UserRepository(
         }
     }
 
-    suspend fun setUserAvatar(bitmap: Bitmap) {
+    suspend fun setUserAvatar(bitmap: Bitmap): User {
         FileUtil.saveBitmap(context, bitmap)
         val userAvatarFile = FileUtil.getImageFile(context)
+        val user: User
         if (userAvatarFile != null) {
             val requestBody = userAvatarFile.asRequestBody("image/*".toMediaTypeOrNull())
-            val multipart = MultipartBody.Part.createFormData("upload", userAvatarFile.name, requestBody)
-            showRemoteApi.saveUserAvatar(multipart)
+            val multipart = MultipartBody.Part.createFormData("image", userAvatarFile.name, requestBody)
+            user = userMapper.fromResources(showRemoteApi.saveUserAvatar(multipart).user)
+        } else {
+            throw NullPointerException()
         }
+        return user
     }
 
     fun deleteUserAvatar() {

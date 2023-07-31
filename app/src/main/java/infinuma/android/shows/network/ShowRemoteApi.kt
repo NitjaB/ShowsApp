@@ -49,7 +49,7 @@ interface ShowRemoteApi {
     @PUT("users")
     suspend fun saveUserAvatar(
         @Part image: MultipartBody.Part
-    )
+    ): RegisterUserResponse
 
     @GET("shows/{id}/reviews")
     suspend fun getReviews(

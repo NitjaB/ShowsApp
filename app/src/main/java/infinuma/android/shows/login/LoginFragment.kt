@@ -1,9 +1,14 @@
 package infinuma.android.shows.login
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.BounceInterpolator
+import android.view.animation.ScaleAnimation
+import androidx.core.animation.addListener
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -90,6 +95,7 @@ class LoginFragment : Fragment() {
                 viewModel.onPasswordInputChanged(text.toString())
             }
         }
+        startAnimation()
     }
 
     private fun showLoginErrorDialog() = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
@@ -98,5 +104,23 @@ class LoginFragment : Fragment() {
         .setCancelable(false)
         .create()
         .show()
+
+    private fun startAnimation() {
+        val imageAnimation = ObjectAnimator.ofFloat(binding.playImageView, "translationY", -200f, 0f).apply {
+            duration = 1000
+            interpolator = BounceInterpolator()
+            start()
+        }
+        imageAnimation.addListener(
+            onEnd = {
+                binding.showsTextView.visibility = View.VISIBLE
+                val i = ScaleAnimation(0.5f, 1f, 0.5f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f).apply {
+                    duration = 1000
+                    interpolator = BounceInterpolator()
+                }
+                binding.showsTextView.startAnimation(i)
+            }
+        )
+    }
 }
 

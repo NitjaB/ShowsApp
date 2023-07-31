@@ -76,13 +76,13 @@ class ShowViewModel : ViewModel() {
     fun changeProfilePicture(photo: Bitmap) {
         viewModelScope.launch {
             try {
-                userRepository.setUserAvatar(photo)
+                val user = userRepository.setUserAvatar(photo)
+                _state.value = _state.value?.copy(
+                    userAvatarUrl = user.avatarUrl
+                )
             } catch (e: Exception) {
                 _showImageUploadErrorDialog.value = true
             }
         }
-        /*        _state.value = _state.value?.copy(
-                    userAvatarUrl = photo
-                )*/
     }
 }

@@ -1,5 +1,6 @@
 package infinuma.android.shows.details.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,6 @@ import infinuma.android.shows.details.models.ShowDetailsUi
 import infinuma.android.shows.login.domain.UserRepository
 import infinuma.android.shows.shows.data.ShowsRepository
 import infinuma.android.shows.utils.SingleLiveEvent
-import java.lang.NullPointerException
 import kotlin.Exception
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,7 +61,7 @@ class ShowDetailsViewModel : ViewModel() {
                     )
                 )
             } catch (e: Exception) {
-                _showDetailsInitErrorDialog.value = true
+                _showDetailsInitErrorDialog.postValue(true)
             }
         }
     }
@@ -75,14 +75,16 @@ class ShowDetailsViewModel : ViewModel() {
                     review = review
                 )
                 reviewUiMapper.fromDomain(review)
-                _state.value = _state.value?.copy(
-                    ratingUi = addReview(
-                        state.value?.ratingUi ?: RatingUi(),
-                        reviewUiMapper.fromDomain(review)
+                _state.postValue(
+                    _state.value?.copy(
+                        ratingUi = addReview(
+                            state.value?.ratingUi ?: RatingUi(),
+                            reviewUiMapper.fromDomain(review)
+                        )
                     )
                 )
             } catch (_: Exception) {
-                _showDetailsAddReviewErrorDialog.value = true
+                _showDetailsAddReviewErrorDialog.postValue(true)
             }
         }
     }

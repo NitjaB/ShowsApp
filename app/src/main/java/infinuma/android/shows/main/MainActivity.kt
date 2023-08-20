@@ -1,6 +1,7 @@
 package infinuma.android.shows.main
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         RoomInstance.instantiate(this)
         makeStatusBarTransparent()
         binding = MainActivityLayoutBinding.inflate(layoutInflater)
+        this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(binding.root)
     }
 }

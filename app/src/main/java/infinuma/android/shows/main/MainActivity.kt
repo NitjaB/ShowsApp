@@ -1,6 +1,7 @@
 package infinuma.android.shows.main
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import infinuma.android.shows.databinding.MainActivityLayoutBinding
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         TokenRepositoryInstance.init(SharedPrefsSource.getSharedPrefs())
         makeStatusBarTransparent()
         binding = MainActivityLayoutBinding.inflate(layoutInflater)
+        this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContentView(binding.root)
     }
 }

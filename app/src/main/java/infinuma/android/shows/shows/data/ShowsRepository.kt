@@ -10,6 +10,8 @@ import infinuma.android.shows.network.ShowRemoteApi
 import infinuma.android.shows.shows.domain.mappers.ShowInfoMapper
 import infinuma.android.shows.shows.domain.models.ShowInfo
 import infinuma.android.shows.utils.NetworkConnection
+import java.lang.Exception
+import java.lang.NullPointerException
 
 class ShowsRepository(
     private val showRemoteApi: ShowRemoteApi,
@@ -49,9 +51,21 @@ class ShowsRepository(
         val isConnectedToInternet = networkConnection.isNetworkConnected()
         val reviews = mutableListOf<Review>()
         if (isConnectedToInternet) {
-            reviews.addAll(reviewMapper.mapFromResponse(showId, showRemoteApi.getReviews(showId).reviewsResponse))
+            val networkReviews = reviewMapper.mapFromResponse(showId, showRemoteApi.getReviews(showId).reviewsResponse)
+            val show = getShow(showId)
+            if (show != null) {
+                showDao.updateShow(show.copy(hasReviews = networkReviews.isNotEmpty()))
+            }
+            reviews.addAll(networkReviews)
             reviews.forEach { reviewDao.insert(it) }
         } else {
+            val cachedReviews = reviewDao.getReviewsForShow(showId)
+            if(cachedReviews.isEmpty()) {
+                val show = showDao.getShowById(showId)
+                if(show != null && show.hasReviews == null) {
+                    throw NullPointerException()
+                }
+            }
             reviews.addAll(reviewDao.getReviewsForShow(showId))
         }
         val show = getShow(showId)

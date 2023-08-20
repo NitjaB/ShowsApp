@@ -11,5 +11,6 @@ data class ShowInfo(
     val description: String,
     val imageUrl: String,
     val numberOfReviews: Int,
-    val title: String
+    val title: String,
+    val hasReviews: Boolean? = null
 )
